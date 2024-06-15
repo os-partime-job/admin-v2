@@ -9,6 +9,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      console.log("intercept", request,next);
         // array in local storage for registered users
         // tslint:disable-next-line: max-line-length
         const users: any[] = JSON.parse(localStorage.getItem('users')) || [{ username: 'admin', email: 'admin@themesbrand.com', password: '123456' }];
@@ -17,7 +18,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // authenticate
-            if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
+            if (request.url.endsWith('/shop/auth/login') && request.method === 'POST') {
                 const filteredUsers = users.filter(user => {
                     return user.email === request.body.email && user.password === request.body.password;
                 });

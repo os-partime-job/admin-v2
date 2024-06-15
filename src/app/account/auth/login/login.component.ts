@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
             data => {
+              console.log("check login");
               this.router.navigate(['/dashboard']);
             },
             error => {
