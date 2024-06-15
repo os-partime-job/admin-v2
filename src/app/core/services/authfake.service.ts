@@ -41,8 +41,9 @@ export class AuthfakeauthenticationService {
       // return this.http.post<any>(`/users/authenticate`, { email, password })
         return this.http.post<any>(`${environment.backEndConfig.apiUrl}/shop/auth/login`, { email, password },httpOptions)
             .pipe(map(user => {
+              console.log("usser: ",user)
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
+                if (user && user.accessToken) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
