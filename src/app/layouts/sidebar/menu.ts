@@ -39,6 +39,25 @@ export const MENU: MenuItem[] = [
                 link: '/dashboards/blog',
                 parentId: 2
             },
+          {
+            id: 130,
+            label: 'ADMIN',
+            // link: '/dashboards/blog',
+            // icon: 'bx-home-circle',
+            // badge: {
+            //   variant: 'info',
+            //   text: 'MENUITEMS.DASHBOARDS.BADGE',
+            // },
+            parentId: 2,
+            subItems: [
+              {
+                id: 131,
+                label: 'Product Manage',
+                link: '/admin/manage-product',
+                parentId: 130
+              },
+            ]
+          },
         ]
     },
     {
@@ -61,7 +80,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.CHAT.TEXT',
         icon: 'bx-chat',
         link: '/chat',
-        
+
     },
     {
         id: 11,
@@ -207,19 +226,19 @@ export const MENU: MenuItem[] = [
                         id:33 ,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.BASIC',
                         link: '/email/basic',
-                        parentId:32 
+                        parentId:32
                     },
                     {
                         id:34 ,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.ALERT',
                         link: '/email/alert',
-                        parentId:32 
+                        parentId:32
                     },
                     {
                         id:35 ,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.BILLING',
                         link: '/email/billing',
-                        parentId:32 
+                        parentId:32
                     }
                 ]
             }
