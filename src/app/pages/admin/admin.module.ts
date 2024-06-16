@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {AdminRoutingModule} from "./admin-routing.module";
 import { UIModule } from '../../shared/ui/ui.module';
@@ -14,6 +15,7 @@ import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductManagerComponent } from './product-manager/product-manager.component';
+import {ToastsContainer} from "../../core/toast/toasts-container.component";
 
 const config: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -23,7 +25,8 @@ const config: DropzoneConfigInterface = {
 @NgModule({
   // tslint:disable-next-line: max-line-length
   declarations: [
-    ProductManagerComponent
+    ProductManagerComponent,
+    ToastsContainer
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ const config: DropzoneConfigInterface = {
     Ng5SliderModule,
     NgSelectModule,
     NgbPaginationModule,
+    NgbModule
   ],
   providers: [
     {

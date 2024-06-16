@@ -48,12 +48,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form #addForm="ngForm" (ngSubmit)="onAddProduct(addForm)">
+            <form #addForm="ngForm">
               <div class="form-group">
                 <label for="name">Name: </label>
                 <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
@@ -108,7 +108,7 @@
               </div>
               <div class="modal-footer">
                 <button (click)="modal.close('Close click')" class="btn btn-secondary">Close</button>
-                <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+                <button [disabled]="addForm.invalid" (click)="onAddProduct(addForm.value)" type="submit" class="btn btn-primary" >Save changes</button>
               </div>
             </form>
           </div>
@@ -208,4 +208,5 @@
     <p>No Products were found.</p>
   </div>
 </div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 

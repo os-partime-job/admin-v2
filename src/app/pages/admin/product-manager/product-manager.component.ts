@@ -4,6 +4,7 @@ import {ProductService} from "../../../core/services/product.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "../../../core/toast/toast-service";
 class ImageSnippet {
   pending: boolean = false;
   status: string = 'init';
@@ -26,7 +27,8 @@ export class ProductManagerComponent implements OnInit {
   constructor(
               private ProductService: ProductService,
               private router: Router,
-              private modalService: NgbModal
+              private modalService: NgbModal,
+              private toastService :ToastService
               ) { }
 
   ngOnInit(): void {
@@ -51,27 +53,29 @@ export class ProductManagerComponent implements OnInit {
   }
   public onAddProduct(addForm: NgForm): void {
     const formData: FormData = new FormData();
+    console.log(addForm.value);
     if(this.selectedFile) {
       formData.append('image',this.selectedFile.file);
-      formData.append('request',new Blob([JSON.stringify(addForm.value)], {
+      formData.append('request',new Blob([JSON.stringify(addForm)], {
         type: 'application/json',
       }));
-      document.getElementById('add-Product-form')!.click();
       this.ProductService.addProduct(formData).subscribe(
         (response: any) => {
           console.log(response);
-          // this.toastrService.success("Add product success")
+          this.toastService.show('Add product success', { classname: 'bg-success text-light', delay: 5000 });
           this.getProducts();
           addForm.reset();
+          this.modalService.dismissAll();
+          this.selectedFile = new ImageSnippet(null,null);
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
           addForm.reset();
-          this.selectedFile.file = null;
+          this.selectedFile = new ImageSnippet(null,null);
         }
       );
     } else {
-      // this.toastrService.error(" Không được để trống ảnh");
+      this.toastService.show('Không được để trống ảnh', { classname: 'bg-danger text-light', delay: 5000 })
     }
   }
   public logoutPage():void{
@@ -91,14 +95,15 @@ export class ProductManagerComponent implements OnInit {
     }));
     this.ProductService.updateProduct(formData).subscribe(
       (response: any) => {
-        // this.toastrService.success("Update product success")
+        this.toastService.show('Update product success', { classname: 'bg-success text-light', delay: 5000 });
         this.getProducts();
-        // this.selectedFile = new ImageSnippet(null, null);
         this.modalService.dismissAll();
+        this.selectedFile = new ImageSnippet(null,null);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
         this.modalService.dismissAll();
+        this.selectedFile = new ImageSnippet(null,null);
       }
     );
   }
@@ -108,7 +113,7 @@ export class ProductManagerComponent implements OnInit {
       ProductId = Number(ProductId);
       this.ProductService.deleteProduct(ProductId).subscribe(
         (response: void) => {
-          console.log(response);
+          this.toastService.show('Delete product success', { classname: 'bg-success text-light', delay: 5000 });
           this.getProducts();
           this.modalService.dismissAll();
         },
@@ -146,7 +151,6 @@ export class ProductManagerComponent implements OnInit {
       this.modalService.open(modal, { centered: true });
     }
     if (mode === 'edit') {
-      console.log("check call api ")
       this.editProduct = Product;
       this.modalService.open(modal, { centered: true });
     }
@@ -182,7 +186,7 @@ export class ProductManagerComponent implements OnInit {
       this.jewelryTypes = [...res.data];
       console.log(this.jewelryTypes);
     },error => {
-      // this.toastrService.error("Error get Type")
+      this.toastService.show('Error get Type', { classname: 'bg-danger text-light', delay: 5000 })
     })
 
   }
