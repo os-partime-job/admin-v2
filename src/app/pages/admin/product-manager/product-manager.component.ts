@@ -61,7 +61,6 @@ export class ProductManagerComponent implements OnInit {
   }
   public onAddProduct(addForm: NgForm): void {
     const formData: FormData = new FormData();
-    console.log(addForm.value);
     if(this.selectedFile) {
       formData.append('image',this.selectedFile.file);
       formData.append('request',new Blob([JSON.stringify(addForm)], {
@@ -69,7 +68,6 @@ export class ProductManagerComponent implements OnInit {
       }));
       this.ProductService.addProduct(formData).subscribe(
         (response: any) => {
-          console.log(response);
           this.toastService.show('Add product success', { classname: 'bg-success text-light', delay: 5000 });
           this.getProducts();
           addForm.reset();
@@ -94,7 +92,6 @@ export class ProductManagerComponent implements OnInit {
 
   public onUpdateProduct(product: any): void {
     const formData: FormData = new FormData();
-    console.log(this.selectedFile);
     if(this.selectedFile != undefined) {
       formData.append('image',this.selectedFile?.file!=undefined ?this.selectedFile.file:null);
     }
@@ -158,7 +155,6 @@ export class ProductManagerComponent implements OnInit {
   }
 
   processFile(imageInput: any) {
-    console.log(imageInput.files[0]);
     const file: File = imageInput.files[0];
     const reader = new FileReader();
 
@@ -181,7 +177,6 @@ export class ProductManagerComponent implements OnInit {
   private getJewelryTypes() {
     this.ProductService.getJewelryType().subscribe((res) =>{
       this.jewelryTypes = [...res.data];
-      console.log(this.jewelryTypes);
     },error => {
       this.toastService.show('Error get Type', { classname: 'bg-danger text-light', delay: 5000 })
     })
