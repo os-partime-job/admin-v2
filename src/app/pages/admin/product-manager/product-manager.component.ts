@@ -24,6 +24,13 @@ export class ProductManagerComponent implements OnInit {
   public deleteProduct!: any;
   selectedFile: ImageSnippet;
   public jewelryTypes : any[] = [];
+
+  page = 1;
+  count = 100;
+  pageSize = 8;
+  searchProduct:string = '';
+  pageSizes = [3, 6, 9];
+
   constructor(
               private ProductService: ProductService,
               private router: Router,
@@ -39,14 +46,15 @@ export class ProductManagerComponent implements OnInit {
   }
   public getProducts(): void{
     let request = {
-      jewelry_type_id:'',
-      limit:1000,
-      offset:0,
+      title:this.searchProduct,
+      limit:this.pageSize,
+      offset:(this.page-1)*this.pageSize,
       requestId:''
     }
     this.ProductService.getProducts(request).subscribe(
       (response:any) =>{
         this.Products = response.data;
+        this.count = response?.meta?.total;
       },
       (error: HttpErrorResponse)=>{alert(error.message);}
     );
@@ -129,21 +137,10 @@ export class ProductManagerComponent implements OnInit {
   }
 
   public searchProducts(key: string): void {
-    console.log(key);
-    const results: any[] = [];
-    for (const Product of this.Products) {
-      if (Product.name?.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        // || Product.mail?.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        // || Product.phone?.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        // || Product.jobTitle?.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      ) {
-        results.push(Product);
-      }
-    }
-    this.Products = results;
-    if (results.length === 0 || !key) {
-      this.getProducts();
-    }
+    this.searchProduct = key;
+    this.page = 1;
+    this.getProducts();
+
   }
 
   public onOpenModal(Product: any, mode: string, modal:any): void{

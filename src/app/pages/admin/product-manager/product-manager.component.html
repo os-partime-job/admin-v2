@@ -10,9 +10,9 @@
         <a class="nav-link" (click)="onOpenModal(null, 'add',addProductModal)">Add Product <span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input type="search" (ngModelChange)="searchProducts(key.value)" #key="ngModel" ngModel
-             name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search Products..." required>
+    <form class="form-inline my-2 my-lg-0" style="text-align:right;margin-left: 70%">
+      <input type="search" (keydown.enter)="searchProducts(key.value)" #key="ngModel" ngModel
+             name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search Products......." required>
     </form>
   </div>
 </div>
@@ -42,6 +42,12 @@
       </div>
     </div>
   </div>
+  <ngb-pagination [(page)]="page"
+                  [pageSize]="pageSize"
+                  [collectionSize]="count"
+                  (pageChange)="getProducts()"
+                  class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
+  </ngb-pagination>
 
   <!-- Add Product Modal -->
   <ng-template #addProductModal role="document" let-modal>
