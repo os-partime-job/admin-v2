@@ -56,6 +56,18 @@ export const MENU: MenuItem[] = [
                 link: '/admin/manage-product',
                 parentId: 130
               },
+              {
+                id: 132,
+                label: 'Order List Manage',
+                link: '/admin/order-list',
+                parentId: 130
+              },
+              {
+                id: 133,
+                label: 'Delivery List Manage',
+                link: '/admin/delivery-list',
+                parentId: 130
+              },
             ]
           },
         ]

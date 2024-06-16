@@ -16,6 +16,8 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductManagerComponent } from './product-manager/product-manager.component';
 import {ToastsContainer} from "../../core/toast/toasts-container.component";
+import { OrderListComponent } from './order-list/order-list.component';
+import { ListDeliveryComponent } from './list-delivery/list-delivery.component';
 
 const config: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -26,7 +28,9 @@ const config: DropzoneConfigInterface = {
   // tslint:disable-next-line: max-line-length
   declarations: [
     ProductManagerComponent,
-    ToastsContainer
+    ToastsContainer,
+    OrderListComponent,
+    ListDeliveryComponent
   ],
   imports: [
     CommonModule,
