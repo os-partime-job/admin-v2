@@ -30,14 +30,14 @@
               <tr>
 <!--                <th>#</th>-->
                 <th>id</th>
-                <th>userId</th>
+                <th>user Id</th>
                 <th>status</th>
-                <th>totalOrder</th>
-                <th>totalOrderSuccess</th>
-                <th>totalOrderFail</th>
-                <th>createdAt</th>
-                <th>updatedAt</th>
-<!--                <th>Action</th>-->
+                <th>Total order</th>
+                <th>total order success</th>
+                <th>total order fail</th>
+                <th>created At</th>
+                <th>updated At</th>
+                <th>Action</th>
               </tr>
               </thead>
               <tbody>
@@ -70,22 +70,22 @@
 <!--                </td>-->
 <!--                <td>{{item.balance}}</td>-->
 <!--                <td>{{item.date | date: 'dd MMM, YYYY'}}</td>-->
-<!--                <td>-->
-<!--                  <div class="dropdown" ngbDropdown placement="bottom-right">-->
-<!--                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" data-toggle="dropdown"-->
-<!--                       ngbDropdownToggle aria-expanded="false">-->
-<!--                      <i class="mdi mdi-dots-horizontal font-size-18"></i>-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>-->
-<!--                      <li><a href="javascript: void(0);" class="dropdown-item"><i-->
-<!--                        class="fas fa-pencil-alt text-success me-1"></i>-->
-<!--                        Edit</a></li>-->
+                <td>
+                  <div class="dropdown" ngbDropdown placement="bottom-right">
+                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" data-toggle="dropdown"
+                       ngbDropdownToggle aria-expanded="false">
+                      <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                      <li><a (click)="openModalAddDelivery(modalAddStatusDelivery,item)" class="dropdown-item"><i
+                        class="fas fa-pencil-alt text-success me-1"></i>
+                        Update Status</a></li>
 <!--                      <li><a href="javascript: void(0);" class="dropdown-item"><i-->
 <!--                        class="fas fa-trash-alt text-danger me-1"></i>-->
 <!--                        Delete</a></li>-->
-<!--                    </ul>-->
-<!--                  </div>-->
-<!--                </td>-->
+                    </ul>
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -155,6 +155,46 @@
         </div>
       </div>
       <button type="submit" class="btn btn-success" id="btn-save-event">
+        Save
+      </button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #modalAddStatusDelivery role = "document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Edit Status Delivery</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeEventModalAddDelivery()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="AddDelivery()" [formGroup]="formAddDelivery">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">userId: </label>
+            <input class="form-control" type="text" name="userId" autocomplete="off" formControlName="userId"
+                   [ngClass]="{'is-invalid': submittedDelivery && formDelivery.userId.errors}" />
+            <div *ngIf="submittedDelivery && formDelivery.userId.errors" class="invalid-feedback">
+              <span *ngIf="formDelivery.userId.errors.required">userId is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Status: </label>
+            <select  *ngIf="listStatusDelivery.length > 0" name ="status" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="status"
+                     [ngClass]="{'is-invalid': submittedDelivery && formDelivery.status.errors}">
+              <option *ngFor="let status of listStatusDelivery" [value]="status.value">{{ status?.key }}</option>
+            </select>
+
+            <div *ngIf="submittedDelivery && formDelivery.status.errors" class="invalid-feedback">
+              <span *ngIf="formDelivery.status.errors.required">Status is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-light me-1" (click)="closeEventModalAddDelivery()">
+        Close
+      </button>
+      <button type="submit" class="btn btn-success">
         Save
       </button>
     </form>

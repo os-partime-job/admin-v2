@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Customers} from "../../ecommerce/customers/customers.model";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NumberService} from "../../../core/services/number.service";
 import {OrderService} from "../../../core/services/order.service";
 import {ToastService} from "../../../core/toast/toast-service";
-import {HttpErrorResponse} from "@angular/common/http";
+import {DeliverService} from "../../../core/services/deliver.service";
 
 @Component({
   selector: 'app-order-list',
@@ -16,8 +15,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class OrderListComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
-  formData: FormGroup;
+  formAddDelivery:FormGroup;
+  formUpdateStatusOrder:FormGroup;
   submitted = false;
+  submittedDelivery = false;
+  submittedUpdateStatusOrder = false;
 
   orders : any[];
   term: any;
@@ -25,6 +27,8 @@ export class OrderListComponent implements OnInit {
   count = 0;
   pageSize = 9;
   searchOrder:string = '';
+  listDelivery : any[];
+  maxNumber = 1000000;
 
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
@@ -32,22 +36,27 @@ export class OrderListComponent implements OnInit {
               private router: Router,
               private numberFormat: NumberService,
               private orderService: OrderService,
-              private toastService :ToastService
+              private toastService :ToastService,
+              private deliverService : DeliverService
               ) { }
 
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Admin'},{ label: 'Order List Manage', active: true}];
 
-    this.formData = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      address: ['', [Validators.required]],
-      balance: ['', [Validators.required]]
+    this.formAddDelivery = this.formBuilder.group({
+      orderId: [{value:'',  disabled: true}, [Validators.required]],
+      deliveryId: ['', [Validators.required]],
+      customerId:[''],
+    });
+    this.formUpdateStatusOrder = this.formBuilder.group({
+      orderId: [{value:'',  disabled: true}, [Validators.required]],
+      deliveryId: ['', [Validators.required]],
+      customerId:[''],
     });
 
     this.page = 1;
     this.getAllOrder();
+    this.getAllDelivery();
   }
   getAllOrder() {
     const request = {
@@ -65,39 +74,89 @@ export class OrderListComponent implements OnInit {
     })
   }
 
-  get form() {
-    return this.formData.controls;
+  get formDelivery() {
+    return this.formAddDelivery.controls;
+  }
+  get formUpdate(){
+    return this.formUpdateStatusOrder.controls;
+  }
+  fetchDataFormDelivery(data: any) {
+    this.formDelivery['orderId'].setValue(data.uniqueOrderId);
+    this.formDelivery['customerId'].setValue(data.customerId);
   }
   /**
    * Open modal
    * @param content modal content
+   * @param item
    */
-  openModal(content: any) {
+  openModalAddDelivery(content: any, item: any) {
+    this.fetchDataFormDelivery(item);
     this.modalService.open(content);
   }
+  closeEventModalAddDelivery() {
+    this.formDelivery['orderId'].setValue(null);
+    this.formDelivery['deliveryId'].setValue(null);
+    this.formDelivery['customerId'].setValue(null);
+    this.modalService.dismissAll();
+  }
+  AddDelivery() {
+    console.log(this.formDelivery);
+    if(this.formAddDelivery.valid) {
+      const request = {
+        customer_id: this.formDelivery['customerId'].value,
+        order_id: this.formDelivery['orderId'].value,
+        delivery_id: this.formDelivery['deliveryId'].value
+      };
+      this.orderService.addDeliveryToOrder(request).subscribe((res) =>{
+        this.toastService.show('Add delivery to order success', { classname: 'bg-success text-light', delay: 5000 });
+        this.getAllOrder();
+      }, error => {
+        this.toastService.show('Add delivery to order fail!!!', { classname: 'bg-danger text-light', delay: 5000 })
+      })
 
-  saveCustomer() {
-    const currentDate = new Date();
-    if (this.formData.valid) {
-      const username = this.formData.get('username').value;
-      const email = this.formData.get('email').value;
-      const phone = this.formData.get('phone').value;
-      const address = this.formData.get('address').value;
-      const balance = this.formData.get('balance').value;
-
-      // this.customersData.push({
-      //   id: this.customersData.length + 1,
-      //   username,
-      //   email,
-      //   phone,
-      //   address,
-      //   balance,
-      //   rating: '4.3',
-      //   date: currentDate + ':'
-      // })
       this.modalService.dismissAll()
     }
-    this.submitted = true
+    this.submittedDelivery = true;
   }
 
+  getAllDelivery() {
+    const request = {
+      limit:this.maxNumber,
+    }
+    this.deliverService.getAllDelivery().subscribe((res) =>{
+      this.listDelivery = res;
+      // this.count = res?.meta?.total;
+    }, error => {
+      this.toastService.show('Error get list order', { classname: 'bg-danger text-light', delay: 5000 });
+
+    })
+  }
+
+  openUpdateStatusOrder(content: any, item: any){
+    this.fetchDataFormUpdateStatusOrder(item);
+    this.modalService.open(content);
+
+  }
+  fetchDataFormUpdateStatusOrder(item: any){
+    this.formUpdate['orderId'].setValue(item.uniqueOrderId);
+    this.formDelivery['customerId'].setValue(item.customerId);
+  }
+
+  updateStatusOrder() {
+    if(this.formUpdateStatusOrder.valid) {
+      const request = {
+        customer_id: this.formUpdate['customerId'].value,
+        order_id: this.formUpdate['orderId'].value,
+        delivery_id: this.formUpdate['deliveryId'].value
+      };
+      this.modalService.dismissAll()
+    }
+    this.submittedUpdateStatusOrder = true;
+  }
+  closeEventModalUpdateStatus() {
+    this.formUpdate['orderId'].setValue(null);
+    this.formUpdate['deliveryId'].setValue(null);
+    this.formUpdate['customerId'].setValue(null);
+    this.modalService.dismissAll();
+  }
 }

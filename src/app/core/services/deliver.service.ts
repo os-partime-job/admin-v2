@@ -35,4 +35,7 @@ export class DeliverService{
   getAllDelivery():Observable<any> {
     return this.http.get<any[]>(`${environment.backEndConfig.apiUrl}/delivery/list-deliver`,this.httpOptions);
   }
+  updateStatusDelivery(request: any):Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/delivery/update-deliver`,request,this.httpOptions);
+  }
 }

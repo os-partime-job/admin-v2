@@ -47,4 +47,10 @@ export class OrderService{
   getOrdersAllUser(request: any) :Observable<any> {
     return this.http.post(`${environment.backEndConfig.apiUrl}/order/list_all_user`,request,this.httpOptions)
   }
+  addDeliveryToOrder(request: any): Observable<any> {
+    return this.http.post(`${environment.backEndConfig.apiUrl}/delivery/add-update`,request,this.httpOptions);
+  }
+  updateStatusOrder(request: any): Observable<any> {
+    return this.http.post(`${environment.backEndConfig.apiUrl}/order/update`,request,this.httpOptions);
+  }
 }
