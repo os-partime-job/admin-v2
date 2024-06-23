@@ -6,6 +6,7 @@ import {NumberService} from "../../../core/services/number.service";
 import {OrderService} from "../../../core/services/order.service";
 import {ToastService} from "../../../core/toast/toast-service";
 import {DeliverService} from "../../../core/services/deliver.service";
+import {listStatusOrder} from "./list-status-order";
 
 @Component({
   selector: 'app-order-list',
@@ -28,6 +29,7 @@ export class OrderListComponent implements OnInit {
   pageSize = 9;
   searchOrder:string = '';
   listDelivery : any[];
+  listStatusOrder: any[];
   maxNumber = 1000000;
 
   constructor(private modalService: NgbModal,
@@ -50,11 +52,12 @@ export class OrderListComponent implements OnInit {
     });
     this.formUpdateStatusOrder = this.formBuilder.group({
       orderId: [{value:'',  disabled: true}, [Validators.required]],
-      deliveryId: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       customerId:[''],
     });
 
     this.page = 1;
+    this.listStatusOrder = listStatusOrder;
     this.getAllOrder();
     this.getAllDelivery();
   }
@@ -111,7 +114,7 @@ export class OrderListComponent implements OnInit {
         this.toastService.show('Add delivery to order success', { classname: 'bg-success text-light', delay: 5000 });
         this.getAllOrder();
       }, error => {
-        this.toastService.show('Add delivery to order fail!!!', { classname: 'bg-danger text-light', delay: 5000 })
+        this.toastService.show('Add delivery to order fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
       })
 
       this.modalService.dismissAll()

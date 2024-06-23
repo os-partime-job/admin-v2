@@ -18,6 +18,7 @@ import { ProductManagerComponent } from './product-manager/product-manager.compo
 import {ToastsContainer} from "../../core/toast/toasts-container.component";
 import { OrderListComponent } from './order-list/order-list.component';
 import { ListDeliveryComponent } from './list-delivery/list-delivery.component';
+import { UserManageComponent } from './user-manage/user-manage.component';
 
 const config: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -30,7 +31,8 @@ const config: DropzoneConfigInterface = {
     ProductManagerComponent,
     ToastsContainer,
     OrderListComponent,
-    ListDeliveryComponent
+    ListDeliveryComponent,
+    UserManageComponent
   ],
   imports: [
     CommonModule,
