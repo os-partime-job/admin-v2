@@ -5,6 +5,7 @@ import {ProductManagerComponent} from "./product-manager/product-manager.compone
 import {OrderListComponent} from "./order-list/order-list.component";
 import {ListDeliveryComponent} from "./list-delivery/list-delivery.component";
 import {UserManageComponent} from "./user-manage/user-manage.component";
+import {VoucherManageComponent} from "./vocher-manage/voucher-manage.component";
 const routes: Routes = [
   {
     path:'manage-product',
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path:'user-manage',
     component:UserManageComponent,
+  },
+  {
+    path:'voucher-manage',
+    component:VoucherManageComponent,
   },
 
 ];

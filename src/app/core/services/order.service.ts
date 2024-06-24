@@ -53,4 +53,20 @@ export class OrderService{
   updateStatusOrder(request: any): Observable<any> {
     return this.http.post(`${environment.backEndConfig.apiUrl}/order/update`,request,this.httpOptions);
   }
+  getAllVoucher() :Observable<any> {
+    return this.http.get<any[]>(`${environment.backEndConfig.apiUrl}/shop/coupon/all`,this.httpOptions)
+  }
+  addVoucher( request: any) : Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/add`,request,this.httpOptions)
+  }
+  updateVoucher( request: any) : Observable<any> {
+    return this.http.put<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/modify`,request,this.httpOptions)
+  }
+  deleteVoucher( id: any) : Observable<any> {
+    return this.http.delete<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/deactivate?code=${id}`,this.httpOptions)
+  }
+  useVoucher( request: any) : Observable<any> {
+    return this.http.put<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/use`,request,this.httpOptions)
+  }
+
 }

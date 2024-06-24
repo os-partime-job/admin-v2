@@ -74,6 +74,12 @@ export const MENU: MenuItem[] = [
                 link: '/admin/user-manage',
                 parentId: 130
               },
+              {
+                id: 135,
+                label: 'Voucher List Manage',
+                link: '/admin/voucher-manage',
+                parentId: 130
+              },
             ]
           },
         ]

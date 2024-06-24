@@ -1,0 +1,262 @@
+<div class="container-fluid">
+
+  <app-page-title title="Voucher List Manage" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+                        <div class="col-sm-4">
+                          <div class="search-box me-2 mb-2 d-inline-block">
+                            <div class="position-relative">
+<!--                              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="term" />-->
+<!--                              <i class="bx bx-search-alt search-icon"></i>-->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-8">
+                          <div class="text-sm-end">
+                            <button type="button" class="btn btn-success btn-rounded mb-2 mr-2" (click)="openModal(content)">
+                              <i class="mdi mdi-plus me-1"></i> New Voucher
+                            </button>
+                          </div>
+                        </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle table-nowrap">
+              <thead>
+              <tr>
+                <th>id</th>
+                <th>Coupons Code</th>
+                <th>Discount Percent</th>
+                <th>Expiration Date</th>
+                <th>Discount Type</th>
+                <th>quantity</th>
+                <th>Active</th>
+                <th>Created At</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of listVoucher ;let i = index;">
+                <!--                <td>-->
+                <!--                  <div class="form-check font-size-16">-->
+                <!--                    <input id="customCheck{{i}}" type="checkbox" class="form-check-input" />-->
+                <!--                    <label class="form-check-label" for="customCheck{{i}}">&nbsp;</label>-->
+                <!--                  </div>-->
+                <!--                </td>-->
+                <td>{{item.id}}</td>
+                <td>{{item.couponsCode}}</td>
+                <td>{{item.discountPercent}}</td>
+                <td>{{item.expirationDate| date: 'dd MMM, YYYY'}}</td>
+                <td>{{item.discountType}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.isActive}}</td>
+                <td>{{item.createdAt| date: 'dd MMM, YYYY'}}</td>
+                <td>
+                  <div class="dropdown" ngbDropdown placement="bottom-right">
+                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" data-toggle="dropdown"
+                       ngbDropdownToggle aria-expanded="false">
+                      <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                      <li><a (click)="openModalUpdateVoucher(modalUpdateVoucher,item)" class="dropdown-item"><i
+                        class="fas fa-pencil-alt text-success me-1"></i>
+                        Update Status</a></li>
+                      <li><a (click)="deleteCoupon(item)" class="dropdown-item"><i
+                        class="fas fa-trash-alt text-danger me-1"></i>
+                        Delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- pagination -->
+          <!--          <ngb-pagination [collectionSize]="50" [(page)]="currentpage"-->
+          <!--                          class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">-->
+          <!--          </ngb-pagination>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+</div>
+
+<!-- Standard Modal -->
+<ng-template #content role="document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Add Voucher</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="saveCoupon()" [formGroup]="formData">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">code</label>
+            <input class="form-control" placeholder="Enter code" type="text" name="code" autocomplete="off" formControlName="code"
+                   [ngClass]="{'is-invalid': submitted && form.code.errors}" />
+            <div *ngIf="submitted && form.code.errors" class="invalid-feedback">
+              <span *ngIf="form.code.errors.required">Code is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Discount Percent</label>
+            <input type="number" min="0" max="99" class="form-control" placeholder="Enter Discount Percent" name="discountPercent" autocomplete="off" formControlName="discountPercent"
+                   [ngClass]="{'is-invalid': submitted && form.discountPercent.errors}" />
+            <div *ngIf="submitted && form.discountPercent.errors" class="invalid-feedback">
+              <span *ngIf="form.discountPercent.errors.required">Discount Percent is required.</span>
+              <span *ngIf="form.discountPercent.errors.min">Discount Percent is min 1.</span>
+              <span *ngIf="form.discountPercent.errors.max">Discount Percent is max 99.</span>
+<!--              <span *ngIf="form.discountPercent.errors.pattern">This value should be a valid email.</span>-->
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Discount Type: </label>
+            <select  *ngIf="couponsType.length > 0" name ="discountType" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="discountType"
+                     [ngClass]="{'is-invalid': submitted && form.discountType.errors}">
+              <option *ngFor="let type of couponsType" [value]="type.value">{{ type?.key }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.discountType.errors" class="invalid-feedback">
+              <span *ngIf="form.discountType.errors.required">Discount Type is required.</span>
+            </div>
+          </div>
+          <div class="mb-3" *ngIf = "form['discountType'].value == 'PERSONAL'">
+            <label class="control-label">Type: </label>
+            <select  *ngIf="CouponsConditionType.length > 0" name ="type" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="type"
+                     [ngClass]="{'is-invalid': submitted && form.type.errors}">
+              <option *ngFor="let type of CouponsConditionType" [value]="type.value">{{ type?.key }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.type.errors" class="invalid-feedback">
+              <span *ngIf="form.type.errors.required">Type is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Value</label>
+            <input class="form-control" placeholder="Enter Value" type="text" name="value" autocomplete="off" formControlName="value"
+                   [ngClass]="{'is-invalid': submitted && form.value.errors}" />
+            <div *ngIf="submitted && form.value.errors" class="invalid-feedback">
+              <span *ngIf="form.value.errors.required">Value is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Expiration Date</label>
+            <input class="form-control" placeholder="Enter expirationDate" type="text" autocomplete="off" name="expirationDate" formControlName="expirationDate"
+                   [ngClass]="{'is-invalid': submitted && form.expirationDate.errors}" />
+            <div *ngIf="submitted && form.expirationDate.errors" class="invalid-feedback">
+              <span *ngIf="form.expirationDate.errors.required">expirationDate is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Quantity</label>
+            <input class="form-control" placeholder="Enter balance" type="text" autocomplete="off" name="quantity" formControlName="quantity"
+                   [ngClass]="{'is-invalid': submitted && form.quantity.errors}" />
+            <div *ngIf="submitted && form.quantity.errors" class="invalid-feedback">
+              <span *ngIf="form.quantity.errors.required">Quantity is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" id="btn-save-event">
+        Save
+      </button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #modalUpdateVoucher role = "document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Update Voucher</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeEventModalUpdateVoucher()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="updateVoucher()" [formGroup]="formUpdate">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">code</label>
+            <input class="form-control" placeholder="Enter code" type="text" name="code" autocomplete="off" formControlName="code"
+                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.code.errors}" />
+            <div *ngIf="submitted && formUpdateCouple.code.errors" class="invalid-feedback">
+              <span *ngIf="formUpdateCouple.code.errors.required">Code is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Discount Percent</label>
+            <input type="number" min="0" max="99" class="form-control" placeholder="Enter Discount Percent" name="discountPercent" autocomplete="off" formControlName="discountPercent"
+                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.discountPercent.errors}" />
+            <div *ngIf="submitted && formUpdateCouple.discountPercent.errors" class="invalid-feedback">
+              <span *ngIf="formUpdateCouple.discountPercent.errors.required">Discount Percent is required.</span>
+              <span *ngIf="formUpdateCouple.discountPercent.errors.min">Discount Percent is min 1.</span>
+              <span *ngIf="formUpdateCouple.discountPercent.errors.max">Discount Percent is max 99.</span>
+              <!--              <span *ngIf="form.discountPercent.errors.pattern">This value should be a valid email.</span>-->
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Discount Type: </label>
+            <select  *ngIf="couponsType.length > 0" name ="discountType" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="discountType"
+                     [ngClass]="{'is-invalid': submitted && formUpdateCouple.discountType.errors}">
+              <option *ngFor="let type of couponsType" [value]="type.value">{{ type?.key }}</option>
+            </select>
+
+            <div *ngIf="submitted && formUpdateCouple.discountType.errors" class="invalid-feedback">
+              <span *ngIf="formUpdateCouple.discountType.errors.required">Discount Type is required.</span>
+            </div>
+          </div>
+          <div class="mb-3" *ngIf = "formUpdateCouple['discountType'].value == 'PERSONAL'">
+            <label class="control-label">Type: </label>
+            <select  *ngIf="CouponsConditionType.length > 0" name ="type" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="type"
+                     [ngClass]="{'is-invalid': submitted && formUpdateCouple.type.errors}">
+              <option *ngFor="let type of CouponsConditionType" [value]="type.value">{{ type?.key }}</option>
+            </select>
+
+            <div *ngIf="submitted && formUpdateCouple.type.errors" class="invalid-feedback">
+              <span *ngIf="formUpdateCouple.type.errors.required">Type is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Value</label>
+            <input class="form-control" placeholder="Enter Value" type="text" name="value" autocomplete="off" formControlName="value"
+                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.value.errors}" />
+            <div *ngIf="submitted && formUpdateCouple.value.errors" class="invalid-feedback">
+              <span *ngIf="formUpdateCouple.value.errors.required">Value is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Expiration Date</label>
+            <input class="form-control" placeholder="Enter expirationDate" type="text" autocomplete="off" name="expirationDate" formControlName="expirationDate"
+                   [ngClass]="{'is-invalid': submitted && form.expirationDate.errors}" />
+            <div *ngIf="submitted && form.expirationDate.errors" class="invalid-feedback">
+              <span *ngIf="form.expirationDate.errors.required">expirationDate is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Quantity</label>
+            <input class="form-control" placeholder="Enter balance" type="text" autocomplete="off" name="quantity" formControlName="quantity"
+                   [ngClass]="{'is-invalid': submitted && form.quantity.errors}" />
+            <div *ngIf="submitted && form.quantity.errors" class="invalid-feedback">
+              <span *ngIf="form.quantity.errors.required">Quantity is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-light me-1" (click)="closeEventModalUpdateVoucher()">
+        Close
+      </button>
+      <button type="submit" class="btn btn-success">
+        Save
+      </button>
+    </form>
+  </div>
+</ng-template>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+

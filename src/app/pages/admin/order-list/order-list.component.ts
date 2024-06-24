@@ -157,9 +157,9 @@ export class OrderListComponent implements OnInit {
     this.submittedUpdateStatusOrder = true;
   }
   closeEventModalUpdateStatus() {
+    this.modalService.dismissAll();
     this.formUpdate['orderId'].setValue(null);
     this.formUpdate['deliveryId'].setValue(null);
     this.formUpdate['customerId'].setValue(null);
-    this.modalService.dismissAll();
   }
 }
