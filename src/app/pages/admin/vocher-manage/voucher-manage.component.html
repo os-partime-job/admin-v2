@@ -182,16 +182,16 @@
           <div class="mb-3">
             <label class="control-label">code</label>
             <input class="form-control" placeholder="Enter code" type="text" name="code" autocomplete="off" formControlName="code"
-                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.code.errors}" />
-            <div *ngIf="submitted && formUpdateCouple.code.errors" class="invalid-feedback">
+                   [ngClass]="{'is-invalid': submittedDelivery && formUpdateCouple.code.errors}" />
+            <div *ngIf="submittedDelivery && formUpdateCouple.code.errors" class="invalid-feedback">
               <span *ngIf="formUpdateCouple.code.errors.required">Code is required.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Discount Percent</label>
             <input type="number" min="0" max="99" class="form-control" placeholder="Enter Discount Percent" name="discountPercent" autocomplete="off" formControlName="discountPercent"
-                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.discountPercent.errors}" />
-            <div *ngIf="submitted && formUpdateCouple.discountPercent.errors" class="invalid-feedback">
+                   [ngClass]="{'is-invalid': submittedDelivery && formUpdateCouple.discountPercent.errors}" />
+            <div *ngIf="submittedDelivery && formUpdateCouple.discountPercent.errors" class="invalid-feedback">
               <span *ngIf="formUpdateCouple.discountPercent.errors.required">Discount Percent is required.</span>
               <span *ngIf="formUpdateCouple.discountPercent.errors.min">Discount Percent is min 1.</span>
               <span *ngIf="formUpdateCouple.discountPercent.errors.max">Discount Percent is max 99.</span>
@@ -202,11 +202,11 @@
             <label class="control-label">Discount Type: </label>
             <select  *ngIf="couponsType.length > 0" name ="discountType" class="form-select" style="width: 80%;"
                      autocomplete="off" formControlName="discountType"
-                     [ngClass]="{'is-invalid': submitted && formUpdateCouple.discountType.errors}">
+                     [ngClass]="{'is-invalid': submittedDelivery && formUpdateCouple.discountType.errors}">
               <option *ngFor="let type of couponsType" [value]="type.value">{{ type?.key }}</option>
             </select>
 
-            <div *ngIf="submitted && formUpdateCouple.discountType.errors" class="invalid-feedback">
+            <div *ngIf="submittedDelivery && formUpdateCouple.discountType.errors" class="invalid-feedback">
               <span *ngIf="formUpdateCouple.discountType.errors.required">Discount Type is required.</span>
             </div>
           </div>
@@ -214,35 +214,35 @@
             <label class="control-label">Type: </label>
             <select  *ngIf="CouponsConditionType.length > 0" name ="type" class="form-select" style="width: 80%;"
                      autocomplete="off" formControlName="type"
-                     [ngClass]="{'is-invalid': submitted && formUpdateCouple.type.errors}">
+                     [ngClass]="{'is-invalid': submittedDelivery && formUpdateCouple.type.errors}">
               <option *ngFor="let type of CouponsConditionType" [value]="type.value">{{ type?.key }}</option>
             </select>
 
-            <div *ngIf="submitted && formUpdateCouple.type.errors" class="invalid-feedback">
+            <div *ngIf="submittedDelivery && formUpdateCouple.type.errors" class="invalid-feedback">
               <span *ngIf="formUpdateCouple.type.errors.required">Type is required.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Value</label>
             <input class="form-control" placeholder="Enter Value" type="text" name="value" autocomplete="off" formControlName="value"
-                   [ngClass]="{'is-invalid': submitted && formUpdateCouple.value.errors}" />
-            <div *ngIf="submitted && formUpdateCouple.value.errors" class="invalid-feedback">
+                   [ngClass]="{'is-invalid': submittedDelivery && formUpdateCouple.value.errors}" />
+            <div *ngIf="submittedDelivery && formUpdateCouple.value.errors" class="invalid-feedback">
               <span *ngIf="formUpdateCouple.value.errors.required">Value is required.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Expiration Date</label>
             <input class="form-control" placeholder="Enter expirationDate" type="text" autocomplete="off" name="expirationDate" formControlName="expirationDate"
-                   [ngClass]="{'is-invalid': submitted && form.expirationDate.errors}" />
-            <div *ngIf="submitted && form.expirationDate.errors" class="invalid-feedback">
+                   [ngClass]="{'is-invalid': submittedDelivery && form.expirationDate.errors}" />
+            <div *ngIf="submittedDelivery && form.expirationDate.errors" class="invalid-feedback">
               <span *ngIf="form.expirationDate.errors.required">expirationDate is required.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Quantity</label>
             <input class="form-control" placeholder="Enter balance" type="text" autocomplete="off" name="quantity" formControlName="quantity"
-                   [ngClass]="{'is-invalid': submitted && form.quantity.errors}" />
-            <div *ngIf="submitted && form.quantity.errors" class="invalid-feedback">
+                   [ngClass]="{'is-invalid': submittedDelivery && form.quantity.errors}" />
+            <div *ngIf="submittedDelivery && form.quantity.errors" class="invalid-feedback">
               <span *ngIf="form.quantity.errors.required">Quantity is required.</span>
             </div>
           </div>

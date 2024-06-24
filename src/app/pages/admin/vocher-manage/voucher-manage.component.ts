@@ -75,6 +75,7 @@ export class VoucherManageComponent implements OnInit {
 
     });
     this.formUpdate = this.formBuilder.group({
+      id: [{value:'',  disabled: true}, [Validators.required]],
       code: [{value:'',  disabled: true}, [Validators.required]],
       discountPercent: ['', [Validators.required,Validators.min(1), Validators.max(99)]],
       discountType: ['', [Validators.required]],
@@ -95,6 +96,7 @@ export class VoucherManageComponent implements OnInit {
     return this.formUpdate.controls;
   }
   fetchDataFormUpdateCouple(data: any) {
+    this.formUpdateCouple['id'].setValue(data.id);
     this.formUpdateCouple['code'].setValue(data.couponsCode);
     this.formUpdateCouple['discountPercent'].setValue(data.discountPercent);
     this.formUpdateCouple['discountType'].setValue(data.discountType);
@@ -134,18 +136,21 @@ export class VoucherManageComponent implements OnInit {
        }
        this.orderService.addVoucher(request).subscribe((res) => {
          this.getAllVoucher();
-         this.closeEventModaladdVoucher();
+         this.closeEventModalVoucher();
 
          this.toastService.show('Create Voucher success', { classname: 'bg-success text-light', delay: 5000 });
+         return this.submitted = false;
        },error => {
          this.toastService.show('Create Voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
        });
       this.modalService.dismissAll();
+    } else {
+      this.submitted = true;
     }
-    this.submitted = true;
+
   }
   deleteCoupon(item: any) {
-    this.orderService.deleteVoucher(item.id).subscribe((res) => {
+    this.orderService.deleteVoucher(item.couponsCode).subscribe((res) => {
       this.getAllVoucher();
       this.toastService.show('Delete Voucher success', { classname: 'bg-success text-light', delay: 5000 });
     },error => {
@@ -157,6 +162,7 @@ export class VoucherManageComponent implements OnInit {
     this.modalService.open(content);
   }
   closeEventModalUpdateVoucher() {
+    this.formUpdateCouple['id'].setValue(null);
     this.formUpdateCouple['code'].setValue(null);
     this.formUpdateCouple['discountPercent'].setValue(null);
     this.formUpdateCouple['discountType'].setValue(null);
@@ -166,7 +172,7 @@ export class VoucherManageComponent implements OnInit {
     this.formUpdateCouple['quantity'].setValue(null);
     this.modalService.dismissAll();
   }
-  closeEventModaladdVoucher() {
+  closeEventModalVoucher() {
     this.form['code'].setValue(null);
     this.form['discountPercent'].setValue(null);
     this.form['discountType'].setValue(null);
@@ -183,6 +189,7 @@ export class VoucherManageComponent implements OnInit {
     }
     if(this.formUpdate.valid) {
       const request = {
+        id:this.formUpdateCouple['id'].value,
         code: this.formUpdateCouple['code'].value,
         discountPercent: this.formUpdateCouple['discountPercent'].value,
         discountType: this.formUpdateCouple['discountType'].value,
@@ -196,12 +203,14 @@ export class VoucherManageComponent implements OnInit {
       this.orderService.updateVoucher(request).subscribe((res) => {
         this.getAllVoucher();
         this.toastService.show('Update Voucher success', { classname: 'bg-success text-light', delay: 5000 });
+        return this.submittedDelivery = false;
       },error => {
         this.toastService.show('Update Voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
       });
       this.modalService.dismissAll();
+    } else {
+      this.submittedDelivery = true;
     }
-    this.submitted = true;
   }
   getAllVoucher() {
     this.orderService.getAllVoucher().subscribe((res) =>{
