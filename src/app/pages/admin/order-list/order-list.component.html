@@ -238,6 +238,14 @@
               <span *ngIf="formUpdate.status.errors.required">Status is required.</span>
             </div>
           </div>
+          <div class="mb-3" *ngIf="formUpdate['status'].value === 'cancel'">
+            <label class="control-label">Reason: </label>
+            <input class="form-control" type="text" name="reason" autocomplete="off" formControlName="reason"
+                   [ngClass]="{'is-invalid': submittedUpdateStatusOrder && formUpdate.reason.errors}" />
+            <div *ngIf="submittedUpdateStatusOrder && formUpdate.reason.errors" class="invalid-feedback">
+              <span *ngIf="formUpdate.reason.errors.required">orderId is required.</span>
+            </div>
+          </div>
         </div>
       </div>
       <button type="button" class="btn btn-light me-1" (click)="closeEventModalUpdateStatus()">

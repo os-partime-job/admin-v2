@@ -54,6 +54,7 @@ export class OrderListComponent implements OnInit {
       orderId: [{value:'',  disabled: true}, [Validators.required]],
       status: ['', [Validators.required]],
       customerId:[''],
+      reason :['']
     });
 
     this.page = 1;
@@ -142,7 +143,8 @@ export class OrderListComponent implements OnInit {
   }
   fetchDataFormUpdateStatusOrder(item: any){
     this.formUpdate['orderId'].setValue(item.uniqueOrderId);
-    this.formDelivery['customerId'].setValue(item.customerId);
+    this.formUpdate['customerId'].setValue(item.customerId);
+    this.formUpdate['status'].setValue(item?.status);
   }
 
   updateStatusOrder() {
@@ -150,9 +152,18 @@ export class OrderListComponent implements OnInit {
       const request = {
         customer_id: this.formUpdate['customerId'].value,
         order_id: this.formUpdate['orderId'].value,
-        delivery_id: this.formUpdate['deliveryId'].value
-      };
-      this.modalService.dismissAll()
+        delivery_id: this.formUpdate['deliveryId'].value,
+        status: this.formUpdate['status'].value
+      } as any;
+      if (this.formUpdate['status'].value === 'cancel') {
+        request.reason = this.formUpdate['reason'].value
+      }
+      this.orderService.updateStatusOrder(request).subscribe((res)=>{
+        this.toastService.show('Change status order success', { classname: 'bg-success text-light', delay: 5000 });
+      }, error => {
+        this.toastService.show('Change status order fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+      })
+      this.closeEventModalUpdateStatus();
     }
     this.submittedUpdateStatusOrder = true;
   }
@@ -161,5 +172,7 @@ export class OrderListComponent implements OnInit {
     this.formUpdate['orderId'].setValue(null);
     this.formUpdate['deliveryId'].setValue(null);
     this.formUpdate['customerId'].setValue(null);
+    this.formUpdate['status'].setValue(null);
+    this.formUpdate['reason'].setValue(null);
   }
 }

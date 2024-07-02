@@ -1,21 +1,12 @@
 const listStatusOrder = [
   {
-    key:"watting payment",
-    value:"watting payment"
+    key:"cancel",
+    value:"cancel"
   },
   {
-    key:"watting payment",
-    value:"watting payment"
+    key:"success",
+    value:"success"
   },
-  {
-    key:"watting payment",
-    value:"watting payment"
-  },
-  {
-    key:"watting payment",
-    value:"watting payment"
-  },
-
 ];
 
 export {listStatusOrder}
