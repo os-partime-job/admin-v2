@@ -54,31 +54,44 @@ export const MENU: MenuItem[] = [
                 id: 131,
                 label: 'Product Manage',
                 link: '/admin/manage-product',
-                parentId: 130
+                parentId: 130,
+                role:'ROLE_ADMIN'
               },
               {
                 id: 132,
                 label: 'Order List Manage',
                 link: '/admin/order-list',
-                parentId: 130
+                parentId: 130,
+                role:'ROLE_ADMIN'
               },
               {
                 id: 133,
                 label: 'Delivery List Manage',
                 link: '/admin/delivery-list',
-                parentId: 130
+                parentId: 130,
+                role:'ROLE_DELIVERY'
               },
               {
                 id: 134,
                 label: 'User List Manage',
                 link: '/admin/user-manage',
-                parentId: 130
+                parentId: 130,
+                role:'ROLE_ADMIN'
+
               },
               {
                 id: 135,
                 label: 'Voucher List Manage',
                 link: '/admin/voucher-manage',
-                parentId: 130
+                parentId: 130,
+                role:'ROLE_DELIVERY'
+              },
+              {
+                id: 136,
+                label: 'Sale Manage',
+                link: '/admin/sale-manage',
+                parentId: 130,
+                role:'ROLE_SALE'
               },
             ]
           },

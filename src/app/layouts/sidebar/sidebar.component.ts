@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
+import {AuthfakeauthenticationService} from "../../core/services/authfake.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -23,12 +24,17 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isCondensed = false;
   menu: any;
   data: any;
+  roleUser : string = '';
 
   menuItems = [];
 
   @ViewChild('sideMenu') sideMenu: ElementRef;
 
-  constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient) {
+  constructor(private eventService: EventService,
+              private router: Router,
+              public translate: TranslateService,
+              private http: HttpClient,
+              private authFackservice: AuthfakeauthenticationService) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -38,6 +44,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
+    this.roleUser = this.authFackservice.currentUserValue?.role;
+    console.log(this.roleUser);
     this.initialize();
     this._scrollElement();
   }

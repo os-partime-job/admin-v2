@@ -6,6 +6,7 @@ import {OrderListComponent} from "./order-list/order-list.component";
 import {ListDeliveryComponent} from "./list-delivery/list-delivery.component";
 import {UserManageComponent} from "./user-manage/user-manage.component";
 import {VoucherManageComponent} from "./vocher-manage/voucher-manage.component";
+import {SaleManageComponent} from "./sale-manage/sale-manage.component";
 const routes: Routes = [
   {
     path:'manage-product',
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path:'voucher-manage',
     component:VoucherManageComponent,
+  },
+  {
+    path:'sale-manage',
+    component:SaleManageComponent,
   },
 
 ];

@@ -70,8 +70,13 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
             data => {
-              console.log("check login");
-              this.router.navigate(['/dashboard']);
+              console.log(this.authenticationService.user);
+              if (this.authFackservice.currentUserValue.role === 'ROLE_END_USER') {
+                  this.error = 'User not have permission login';
+                  this.authFackservice.logout();
+              } else {
+                this.router.navigate(['/dashboard']);
+              }
             },
             error => {
               this.error = error ? error : '';
