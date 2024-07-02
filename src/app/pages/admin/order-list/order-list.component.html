@@ -191,7 +191,7 @@
               <select  *ngIf="listDelivery.length > 0" name ="deliveryId" class="form-select" style="width: 80%;"
                        autocomplete="off" formControlName="deliveryId"
                        [ngClass]="{'is-invalid': submittedDelivery && formDelivery.deliveryId.errors}">
-                <option *ngFor="let delivery of listDelivery" [value]="delivery.userId">{{ delivery?.id }}</option>
+                <option *ngFor="let delivery of listDelivery" [value]="delivery.userId">{{ delivery?.userName }}</option>
               </select>
 
             <div *ngIf="submittedDelivery && formDelivery.deliveryId.errors" class="invalid-feedback">
