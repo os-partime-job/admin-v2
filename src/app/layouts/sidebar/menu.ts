@@ -55,7 +55,7 @@ export const MENU: MenuItem[] = [
                 label: 'Product Manage',
                 link: '/admin/manage-product',
                 parentId: 130,
-                role:'ROLE_ADMIN'
+                role:'ROLE_ADMIN, ROLE_SALE'
               },
               {
                 id: 132,

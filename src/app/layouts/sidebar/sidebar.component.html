@@ -37,8 +37,8 @@
               </a>
               <ul *ngIf="hasItems(subitem)" class="sub-menu mm-collapse" aria-expanded="false">
                 <li *ngFor="let subSubitem of subitem.subItems">
-                  <a *ngIf="(this.roleUser ==='ROLE_ADMIN' || this.roleUser === subSubitem.role)" [attr.data-parent]="subSubitem.parentId" [routerLink]="subSubitem.link" routerLinkActive="active"
-                    class="side-nav-link-ref">
+                  <a *ngIf="(this.roleUser ==='ROLE_ADMIN' || checkRole(subSubitem?.role,this.roleUser))" [attr.data-parent]="subSubitem.parentId" [routerLink]="subSubitem.link" routerLinkActive="active"
+                     class="side-nav-link-ref">
                     {{ subSubitem.label | translate }}
                   </a>
                 </li>

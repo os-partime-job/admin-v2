@@ -157,4 +157,14 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   hasItems(item: MenuItem) {
     return item.subItems !== undefined ? item.subItems.length > 0 : false;
   }
+  checkRole(role:any, roleUser:any) {
+    if(role) {
+      return role.indexOf(roleUser) !== -1;
+    }
+    else {
+      return false;
+    }
+
+  }
+
 }
