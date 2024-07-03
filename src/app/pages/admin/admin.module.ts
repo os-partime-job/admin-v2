@@ -55,6 +55,9 @@ const config: DropzoneConfigInterface = {
     NgbPaginationModule,
     NgbModule
   ],
+  exports: [
+    ToastsContainer
+  ],
   providers: [
     {
       provide: DROPZONE_CONFIG,

@@ -50,7 +50,7 @@
                                         <p class="text-muted mb-0">Projects</p>
                                     </div>
                                     <div class="col-6">
-                                        <h5 class="font-size-15">$1245</h5>
+                                        <h5 class="font-size-15">1245 VNĐ</h5>
                                         <p class="text-muted mb-0">Revenue</p>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <p class="text-muted">This month</p>
-                            <h3>$34,252</h3>
+                            <h3>{{dashBoardInfo?.revenue_data?.total_price}} VNĐ</h3>
                             <p class="text-muted"><span class="text-success mr-2"> 12% <i class="mdi mdi-arrow-up"></i>
                                 </span> From
                                 previous period</p>
@@ -94,9 +94,18 @@
         </div>
         <div class="col-xl-8">
             <div class="row">
-                <div *ngFor="let stat of statData" class="col-md-4">
-                    <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stat>
-                </div>
+<!--                <div *ngFor="let stat of statData" class="col-md-4">-->
+<!--                    <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stat>-->
+<!--                </div>-->
+              <div class="col-md-4">
+                <app-stat [title]="'Orders'" [value]='dashBoardInfo?.order_info.total_order' [icon]="'bx bx-copy-alt'"></app-stat>
+              </div>
+              <div class="col-md-4">
+                <app-stat [title]="'Revenue'" [value]='dashBoardInfo?.revenue_data.total_price' [icon]="'bx bx-archive-in'"></app-stat>
+              </div>
+              <div class="col-md-4">
+                <app-stat [title]="'Price success'" [value]='dashBoardInfo?.revenue_data.price_success' [icon]="'bx bx-purchase-tag-alt'"></app-stat>
+              </div>
             </div>
             <!-- end row -->
 
@@ -390,3 +399,4 @@
         </div>
     </div>
 </ng-template>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

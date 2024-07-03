@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { emailSentBarChart, monthlyEarningChart } from './data';
-import { ChartType } from './dashboard.model';
+import {ChartType, DashBoardInfo} from './dashboard.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../../core/services/event.service';
 
 import { ConfigService } from '../../../core/services/config.service';
+import {OrderService} from "../../../core/services/order.service";
+import {ToastService} from "../../../core/toast/toast-service";
+import {NumberService} from "../../../core/services/number.service";
 
 @Component({
   selector: 'app-default',
@@ -19,11 +22,17 @@ export class DefaultComponent implements OnInit {
   monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
+  dashBoardInfo: DashBoardInfo;
 
   isActive: string;
 
   @ViewChild('content') content;
-  constructor(private modalService: NgbModal, private configService: ConfigService, private eventService: EventService) {
+  constructor(private modalService: NgbModal,
+              private configService: ConfigService,
+              private eventService: EventService,
+              private orderService: OrderService,
+              private toastService :ToastService,
+              private numberService: NumberService) {
   }
 
   ngOnInit() {
@@ -45,7 +54,7 @@ export class DefaultComponent implements OnInit {
          console.log(horizontal);
        }
      }
-
+     this.getDashBoardInfo();
     /**
      * Fetches the data
      */
@@ -128,5 +137,25 @@ export class DefaultComponent implements OnInit {
    */
    changeLayout(layout: string) {
     this.eventService.broadcast('changeLayout', layout);
+  }
+  getDashBoardInfo() {
+     this.orderService.getInfoDashBoard().subscribe((res) => {
+       this.dashBoardInfo = res.data;
+       // @ts-ignore
+       this.dashBoardInfo?.revenue_data?.total_price = this.convertNumber(this.dashBoardInfo?.revenue_data?.total_price)+ ' VNĐ';
+       // @ts-ignore
+       this.dashBoardInfo?.revenue_data?.price_wait_payment =this.convertNumber(this.dashBoardInfo?.revenue_data?.price_wait_payment)  + ' VNĐ';
+       // @ts-ignore
+       this.dashBoardInfo?.revenue_data?.price_delivery = this.convertNumber(this.dashBoardInfo?.revenue_data?.price_delivery) + ' VNĐ';
+       // @ts-ignore
+       this.dashBoardInfo?.revenue_data?.price_success = this.convertNumber(this.dashBoardInfo?.revenue_data?.price_success) + ' VNĐ';
+       // @ts-ignore
+       this.dashBoardInfo?.revenue_data?.price_cancel = this.convertNumber(this.dashBoardInfo?.revenue_data?.price_cancel) + ' VNĐ';
+     }, error => {
+       this.toastService.show('Get information dashboard fail!!!', { classname: 'bg-danger text-light', delay: 5000 })
+     })
+  }
+  convertNumber(number){
+    return this.numberService.convertNumber(number);
   }
 }

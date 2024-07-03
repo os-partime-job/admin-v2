@@ -68,4 +68,7 @@ export class OrderService{
   useVoucher( request: any) : Observable<any> {
     return this.http.put<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/use`,request,this.httpOptions)
   }
+  getInfoDashBoard(): Observable<any> {
+    return this.http.get(`${environment.backEndConfig.apiUrl}/order/dashboard`,this.httpOptions);
+  }
 }
