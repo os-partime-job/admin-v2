@@ -55,4 +55,7 @@ export class ProductService {
     const body = {id_jewelry:ProductId};
     return  this.http.post<Object>(`${this.apiUrl}/${this.BASIC_JEWELRY_URL}detail`,body, this.httpOptions);
   }
+  public getDiamondList():Observable<any> {
+    return  this.http.get<any[]>(`${this.apiUrl}/diamond/list`, this.httpOptions);
+  }
 }

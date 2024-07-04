@@ -52,7 +52,7 @@
                 </td>
 
                 <td>{{customers.email}}</td>
-                <td>{{customers.phone}}</td>
+                <td>{{customers.phone_number}}</td>
                 <td>
                   <div class="custom-control custom-switch">
                     <label
@@ -79,8 +79,8 @@
                       <li><a (click)="openModalUpdate(updateModal,customers)" class="dropdown-item"><i
                         class="fas fa-pencil-alt text-success me-1"></i>
                         Add Cart</a></li>
-                                            <li><a (click)="openModal(content)" class="dropdown-item"><i
-                                              class="fas fa-trash-alt text-danger me-1"></i>
+                                            <li><a (click)="getProductCart(customers,content)" class="dropdown-item"><i
+                                              class="fas fa-address-book text-danger me-1"></i>
                                               View Cart</a></li>
                     </ul>
                   </div>
@@ -103,59 +103,57 @@
 <!-- Standard Modal -->
 <ng-template #updateModal role="document" let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">Update Customer</h5>
+    <h5 class="modal-title mt-0">Add product to Cart User</h5>
     <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <form (ngSubmit)="updateUser()" [formGroup]="formUpdate">
+    <form (ngSubmit)="addCart()" [formGroup]="formCart">
       <div class="row">
         <div class="col-12">
           <div class="mb-3">
-            <label class="control-label">Account Id</label>
-            <input class="form-control" placeholder="Enter Account Id" type="text" name="accountId" autocomplete="off" formControlName="accountId"
-                   [ngClass]="{'is-invalid': submitted && formUpdateUser.accountId.errors}" />
-            <div *ngIf="submittedUpdateUser && formUpdateUser.accountId.errors" class="invalid-feedback">
-              <span *ngIf="formUpdateUser.accountId.errors.required">Account Id is required.</span>
+            <label class="control-label">Phone Number</label>
+            <input class="form-control" placeholder="Enter Account Id" type="text" name="phoneNumber" autocomplete="off" formControlName="phoneNumber"
+                   [ngClass]="{'is-invalid': submitted && formAddCart.phoneNumber.errors}" />
+            <div *ngIf="submittedAddCart && formAddCart.phoneNumber.errors" class="invalid-feedback">
+              <span *ngIf="formAddCart.phoneNumber.errors.required">Phone Number is required.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Email</label>
             <input class="form-control" placeholder="Enter email" type="text" name="email" autocomplete="off" formControlName="email"
-                   [ngClass]="{'is-invalid': submitted && formUpdateUser.email.errors}" />
-            <div *ngIf="submittedUpdateUser && formUpdateUser.email.errors" class="invalid-feedback">
-              <span *ngIf="formUpdateUser.email.errors.required">Email is required.</span>
-              <span *ngIf="formUpdateUser.email.errors.pattern">This value should be a valid email.</span>
+                   [ngClass]="{'is-invalid': submitted && formAddCart.email.errors}" />
+            <div *ngIf="submittedAddCart && formAddCart.email.errors" class="invalid-feedback">
+              <span *ngIf="formAddCart.email.errors.required">Email is required.</span>
+              <span *ngIf="formAddCart.email.errors.pattern">This value should be a valid email.</span>
             </div>
           </div>
           <div class="mb-3">
             <label class="control-label">Full Name</label>
             <input class="form-control" placeholder="Enter Full Name" type="text" name="fullName" autocomplete="off" formControlName="fullName"
-                   [ngClass]="{'is-invalid': submitted && formUpdateUser.fullName.errors}" />
-            <div *ngIf="submittedUpdateUser && formUpdateUser.fullName.errors" class="invalid-feedback">
-              <span *ngIf="formUpdateUser.fullName.errors.required">Full Name is required.</span>
+                   [ngClass]="{'is-invalid': submitted && formAddCart.fullName.errors}" />
+            <div *ngIf="submittedAddCart && formAddCart.fullName.errors" class="invalid-feedback">
+              <span *ngIf="formAddCart.fullName.errors.required">Full Name is required.</span>
             </div>
           </div>
           <div class="mb-3">
-            <label class="control-label">Role: </label>
-            <select  *ngIf="userRoles.length > 0" name ="roleId" class="form-select" style="width: 80%;"
-                     autocomplete="off" formControlName="roleId"
-                     [ngClass]="{'is-invalid': formUpdateUser && formUpdateUser.roleId.errors}">
-              <option *ngFor="let role of userRoles" [value]="role.id">{{ role?.roleName }}</option>
+            <label class="control-label">Product Id</label>
+            <input class="form-control" placeholder="Enter Product Id" type="text" name="productId" autocomplete="off" formControlName="productId"
+                   [ngClass]="{'is-invalid': submitted && formAddCart.productId.errors}" />
+            <div *ngIf="submittedAddCart && formAddCart.productId.errors" class="invalid-feedback">
+              <span *ngIf="formAddCart.productId.errors.required">Product Id is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Size diamond: </label>
+            <select  *ngIf="listDiamond.length > 0" name ="size" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="size"
+                     [ngClass]="{'is-invalid': formAddCart && formAddCart.size.errors}">
+              <option value="" selected="selected">By size diamond</option>
+              <option *ngFor="let diamond of listDiamond" [value]="diamond.name">{{ diamond?.name }} - {{convertNumber(diamond?.price)}}</option>
             </select>
 
-            <div *ngIf="submittedUpdateUser && formUpdateUser.roleId.errors" class="invalid-feedback">
-              <span *ngIf="formUpdateUser.roleId.errors.required">Role is required.</span>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="control-label">Active: </label>
-            <select  *ngIf="userRoles.length > 0" name ="active" class="form-select" style="width: 80%;"
-                     autocomplete="off" formControlName="active"
-                     [ngClass]="{'is-invalid': formUpdateUser && formUpdateUser.active.errors}">
-              <option *ngFor="let status of listStatus" [value]="status.status">{{ status?.name }}</option>
-            </select>
-            <div *ngIf="submittedUpdateUser && formUpdateUser.active.errors" class="invalid-feedback">
-              <span *ngIf="formUpdateUser.active.errors.required">Active is required.</span>
+            <div *ngIf="submittedAddCart && formAddCart.roleId.errors" class="invalid-feedback">
+              <span *ngIf="formAddCart.roleId.errors.required">Role is required.</span>
             </div>
           </div>
         </div>
@@ -166,77 +164,19 @@
     </form>
   </div>
 </ng-template>
-<!--<ng-template #content role="document" let-modal>-->
-<!--  <div class="modal-header">-->
-<!--    <h5 class="modal-title mt-0">Add Customer</h5>-->
-<!--    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>-->
-<!--  </div>-->
-<!--  <div class="modal-body">-->
-<!--    <form (ngSubmit)="saveCustomer()" [formGroup]="formData">-->
-<!--      <div class="row">-->
-<!--        <div class="col-12">-->
-<!--          <div class="mb-3">-->
-<!--            <label class="control-label">Username</label>-->
-<!--            <input class="form-control" placeholder="Enter Username" type="text" name="title" autocomplete="off" formControlName="username"-->
-<!--                   [ngClass]="{'is-invalid': submitted && form.username.errors}" />-->
-<!--            <div *ngIf="submitted && form.username.errors" class="invalid-feedback">-->
-<!--              <span *ngIf="form.username.errors.required">Username is required.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label class="control-label">Email</label>-->
-<!--            <input class="form-control" placeholder="Enter email" type="text" name="email" autocomplete="off" formControlName="email"-->
-<!--                   [ngClass]="{'is-invalid': submitted && form.email.errors}" />-->
-<!--            <div *ngIf="submitted && form.email.errors" class="invalid-feedback">-->
-<!--              <span *ngIf="form.email.errors.required">Email is required.</span>-->
-<!--              <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label class="control-label">Phone</label>-->
-<!--            <input class="form-control" placeholder="Enter phone" type="text" name="phone" autocomplete="off" formControlName="phone"-->
-<!--                   [ngClass]="{'is-invalid': submitted && form.phone.errors}" />-->
-<!--            <div *ngIf="submitted && form.phone.errors" class="invalid-feedback">-->
-<!--              <span *ngIf="form.phone.errors.required">Phone is required.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label class="control-label">Address</label>-->
-<!--            <input class="form-control" placeholder="Enter address" type="text" autocomplete="off" name="address" formControlName="address"-->
-<!--                   [ngClass]="{'is-invalid': submitted && form.address.errors}" />-->
-<!--            <div *ngIf="submitted && form.address.errors" class="invalid-feedback">-->
-<!--              <span *ngIf="form.address.errors.required">Address is required.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label class="control-label">Balance</label>-->
-<!--            <input class="form-control" placeholder="Enter balance" type="text" autocomplete="off" name="balance" formControlName="balance"-->
-<!--                   [ngClass]="{'is-invalid': submitted && form.address.errors}" />-->
-<!--            <div *ngIf="submitted && form.balance.errors" class="invalid-feedback">-->
-<!--              <span *ngIf="form.balance.errors.required">balance is required.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <button type="submit" class="btn btn-success" id="btn-save-event">-->
-<!--        Save-->
-<!--      </button>-->
-<!--    </form>-->
-<!--  </div>-->
-<!--</ng-template>-->
 <ng-template #content role="document" let-modal>
   <div class="modal-header">
     <h5 class="modal-title mt-0">Cart Details</h5>
-    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeModalCart()"></button>
   </div>
   <div class="modal-body">
     <p class="mb-2">
-      Product id:
-      <span class="text-primary">#SK2540</span>
+      Phone Number:
+      <span class="text-primary">{{this.customerPhoneNumber}}</span>
     </p>
     <p class="mb-4">
-      Billing Name:
-      <span class="text-primary">Neal Matthews</span>
+      Customer Name:
+      <span class="text-primary">{{this.customerName}}</span>
     </p>
     <div class="table-responsive">
       <table class="table table-centered table-nowrap">
@@ -245,61 +185,31 @@
           <th scope="col">Product</th>
           <th scope="col">Product Name</th>
           <th scope="col">Price</th>
+          <th scope="col">Size</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
+        <tbody *ngIf="cartProduct.length >0">
+        <tr *ngFor="let item of cartProduct">
           <th scope="row">
             <div>
-              <img src="assets/images/product/img-7.png" alt class="avatar-sm" />
+              <img src="{{item.image_url}}" alt class="avatar-sm" />
             </div>
           </th>
           <td>
             <div>
-              <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
-              <p class="text-muted mb-0">$ 225 x 1</p>
+              <h5 class="text-truncate font-size-14">{{item.jewelry_title}}</h5>
+              <p class="text-muted mb-0">VNĐ{{item.price_items}} x {{item.quantity_number}}</p>
             </div>
           </td>
-          <td>$ 255</td>
-        </tr>
-        <tr>
-          <th scope="row">
-            <div>
-              <img src="assets/images/product/img-4.png" alt class="avatar-sm" />
-            </div>
-          </th>
-          <td>
-            <div>
-              <h5 class="text-truncate font-size-14">Phone patterned cases</h5>
-              <p class="text-muted mb-0">$ 145 x 1</p>
-            </div>
-          </td>
-          <td>$ 145</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <h6 class="m-0 text-end">Sub Total:</h6>
-          </td>
-          <td>$ 400</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <h6 class="m-0 text-end">Shipping:</h6>
-          </td>
-          <td>Free</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <h6 class="m-0 text-end">Total:</h6>
-          </td>
-          <td>$ 400</td>
+          <td>{{convertNumber(item.price_items)}} VNĐ</td>
+          <td>{{item.size}}</td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+    <button class="btn btn-secondary" (click)="closeModalCart()">Close</button>
   </div>
 </ng-template>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

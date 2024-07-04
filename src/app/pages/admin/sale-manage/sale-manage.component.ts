@@ -4,6 +4,9 @@ import {Customers} from "../../ecommerce/customers/customers.model";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "../../../core/toast/toast-service";
 import {UserProfileService} from "../../../core/services/user.service";
+import {ProductService} from "../../../core/services/product.service";
+import {NumberService} from "../../../core/services/number.service";
+import {CartService} from "../../../core/services/cart.service";
 
 @Component({
   selector: 'app-sale-manage',
@@ -13,14 +16,18 @@ import {UserProfileService} from "../../../core/services/user.service";
 export class SaleManageComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
-  // formData: FormGroup;
-  formUpdate: FormGroup;
+  formCart: FormGroup;
   submitted = false;
-  submittedUpdateUser = false;
+  submittedAddCart = false;
   customersData: Customers[];
   allUsers:any = [];
   userRoles:any = [];
   listStatus:any = [];
+  listDiamond : any[];
+  selectSizeDiamond: string = '';
+  cartProduct: any[];
+  customerName : String ='';
+  customerPhoneNumber: String = '';
 
   term: any;
 
@@ -30,29 +37,24 @@ export class SaleManageComponent implements OnInit {
   constructor(private modalService: NgbModal,
               private formBuilder: FormBuilder,
               private toastService: ToastService,
-              private userProfileService: UserProfileService) {
+              private userProfileService: UserProfileService,
+              private productService: ProductService,
+              private numberService: NumberService,
+              private cartService: CartService) {
   }
 
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Admin'},{ label: 'Sale Manage', active: true}];
 
-    // this.formData = this.formBuilder.group({
-    //   username: ['', [Validators.required]],
-    //   phone: ['', [Validators.required]],
-    //   email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-    //   address: ['', [Validators.required]],
-    //   balance: ['', [Validators.required]]
-    // });
-    this.formUpdate = this.formBuilder.group({
-      accountId: [{value:'',  disabled: true}, [Validators.required]],
+    this.formCart = this.formBuilder.group({
+      phoneNumber: [{value:'',  disabled: true}, [Validators.required]],
       email: [{value:'',  disabled: true}, [Validators.required]],
-      fullName: ['', [Validators.required]],
-      roleId: ['', [Validators.required]],
-      active: [true, [Validators.required]]
+      fullName: [{value:'',  disabled: true}, [Validators.required]],
+      productId: ['', [Validators.required]],
+      size:['']
     });
     this.getUserList().then(r => {});
-    this.getUserRoleList();
-    this.getListStatus();
+    this.getDiamondList();
 
     // this.currentpage = 1;
 
@@ -71,8 +73,8 @@ export class SaleManageComponent implements OnInit {
   // get form() {
   //   return this.formData.controls;
   // }
-  get formUpdateUser() {
-    return this.formUpdate.controls;
+  get formAddCart() {
+    return this.formCart.controls;
   }
 
   /**
@@ -87,48 +89,22 @@ export class SaleManageComponent implements OnInit {
     this.modalService.open(content);
   }
   fetchDataUpdate(item:any) {
-    this.formUpdateUser['accountId'].setValue(item.account_id);
-    this.formUpdateUser['email'].setValue(item.email);
-    this.formUpdateUser['fullName'].setValue(item.full_name);
-    this.formUpdateUser['roleId'].setValue(this.findRole(item.role).id);
-    this.formUpdateUser['active'].setValue(item.active);
+    this.formAddCart['phoneNumber'].setValue(item.phone_number);
+    this.formAddCart['email'].setValue(item.email);
+    this.formAddCart['fullName'].setValue(item.full_name);
   }
   closeUpdateModal(){
-    this.formUpdateUser['accountId'].setValue('');
-    this.formUpdateUser['email'].setValue('');
-    this.formUpdateUser['fullName'].setValue('');
-    this.formUpdateUser['roleId'].setValue('');
-    this.formUpdateUser['active'].setValue(true);
+    this.formAddCart['phoneNumber'].setValue('');
+    this.formAddCart['email'].setValue('');
+    this.formAddCart['fullName'].setValue('');
+    this.formAddCart['productId'].setValue('');
+    this.formAddCart['size'].setValue('');
     this.modalService.dismissAll();
   }
 
   findRole(role:string){
     return this.userRoles.find(({roleName}) => roleName === role);
   }
-
-  // saveCustomer() {
-  //   const currentDate = new Date();
-  //   if (this.formData.valid) {
-  //     const username = this.formData.get('username').value;
-  //     const email = this.formData.get('email').value;
-  //     const phone = this.formData.get('phone').value;
-  //     const address = this.formData.get('address').value;
-  //     const balance = this.formData.get('balance').value;
-  //
-  //     this.customersData.push({
-  //       id: this.customersData.length + 1,
-  //       username,
-  //       email,
-  //       phone,
-  //       address,
-  //       balance,
-  //       rating: '4.3',
-  //       date: currentDate + ':'
-  //     })
-  //     this.modalService.dismissAll()
-  //   }
-  //   this.submitted = true
-  // }
   async getUserList() {
     this.userProfileService.getAllUser().subscribe((res) => {
       this.allUsers = res?.data;
@@ -137,59 +113,66 @@ export class SaleManageComponent implements OnInit {
     });
 
   }
-  getUserRoleList() {
-    this.userRoles = [
-      {
-        id:1,
-        roleName:'ADMIN'
-      },
-      {
-        id:2,
-        roleName:'END_USER'
-      },
-      {
-        id:3,
-        roleName:'MANAGER'
-      },
-      {
-        id:4,
-        roleName:'SALE'
-      }
-    ]
-  }
-  getListStatus() {
-    this.listStatus = [
-      {
-        status: true,
-        name: 'active'
-      },
-      {
-        status: false,
-        name: 'inActive'
-      }
-    ];
-  }
-  updateUser() {
-    if (this.formUpdate.valid) {
-      console.log(typeof this.formUpdateUser['active'].value);
-      console.log(this.formUpdateUser['active'].value);
-      console.log(!this.formUpdateUser['active'].value);
+  addCart() {
+    if (this.formCart.valid) {
       const request = {
-        accountId:this.formUpdateUser['accountId'].value,
-        email:this.formUpdateUser['email'].value,
-        fullName:this.formUpdateUser['fullName'].value,
-        roleId:this.formUpdateUser['roleId'].value,
-        deactivate:this.formUpdateUser['active'].value == 'false',
+        phone_number:this.formAddCart['phoneNumber'].value,
+        jewelry_id:this.formAddCart['productId'].value,
+        quantity: 1,
+      } as any;
+      if(this.formAddCart['size'].value && this.formAddCart['size'].value != ''){
+        request.size = this.formAddCart['size'].value;
       }
-      this.userProfileService.updateUser(request).subscribe((res) =>{
-        this.toastService.show('Update user success', { classname: 'bg-success text-light', delay: 5000 });
+      this.cartService.addProductToCard(request).subscribe((res) =>{
+        this.toastService.show('Add product to cart success!!!', { classname: 'bg-success text-light', delay: 5000 });
         this.closeUpdateModal();
-        this.getUserList().then(r => {});
-      },error => {
-        this.toastService.show('Update user fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
-      })
+        }, error => {
+        this.toastService.show('Add product to cart fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+      });
     }
-    this.submittedUpdateUser = true;
+    this.submittedAddCart = true;
   }
-
+  getDiamondList() {
+    this.productService.getDiamondList().subscribe((res) =>{
+      this.listDiamond = res;
+    }, error => {
+      this.toastService.show('Get diamond list fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+    })
+  }
+  convertNumber(number){
+    return this.numberService.convertNumber(number);
+  }
+  addProductCart(product:any){
+    const request = {
+      jewelry_id : product?.id_jewelry,
+      quantity : 1,
+    } as any;
+    if (this.selectSizeDiamond && this.selectSizeDiamond !== '') {
+      request.size = this.selectSizeDiamond;
+    }
+    this.cartService.addProductToCard(request).subscribe((res) =>{
+      this.toastService.show('Add product to cart success!!!', { classname: 'bg-success text-light', delay: 5000 });
+    }, error => {
+      this.toastService.show('Add product to cart fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+    });
+  }
+  getProductCart(user: any,modal:any) {
+    const request = {
+      phone_number : user.phone_number
+    }
+    this.cartService.getProductInCart(request).subscribe((res) =>{
+      this.cartProduct = res.data;
+      this.customerPhoneNumber = user.phone_number;
+      this.customerName = user.full_name;
+      this.openModal(modal);
+    }, error => {
+      this.toastService.show('Get cart of Customer fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+    })
+  }
+  closeModalCart(){
+    this.customerName = '';
+    this.customerPhoneNumber = '';
+    this.cartProduct = [];
+    this.modalService.dismissAll();
+  }
 }

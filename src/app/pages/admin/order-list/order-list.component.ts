@@ -152,7 +152,7 @@ export class OrderListComponent implements OnInit {
       const request = {
         customer_id: this.formUpdate['customerId'].value,
         order_id: this.formUpdate['orderId'].value,
-        delivery_id: this.formUpdate['deliveryId'].value,
+        // delivery_id: this.formUpdate['deliveryId'].value,
         status: this.formUpdate['status'].value
       } as any;
       if (this.formUpdate['status'].value === 'cancel') {

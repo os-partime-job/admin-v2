@@ -141,7 +141,12 @@ export class VoucherManageComponent implements OnInit {
          this.toastService.show('Create Voucher success', { classname: 'bg-success text-light', delay: 5000 });
          return this.submitted = false;
        },error => {
-         this.toastService.show('Create Voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+         if(error.data) {
+           this.toastService.show(error.data, { classname: 'bg-danger text-light', delay: 5000 });
+
+         } else {
+           this.toastService.show('Create Voucher voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+         }
        });
       this.modalService.dismissAll();
     } else {
@@ -216,7 +221,12 @@ export class VoucherManageComponent implements OnInit {
     this.orderService.getAllVoucher().subscribe((res) =>{
       this.listVoucher = res.data;
     }, error => {
-      this.toastService.show('Get all voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+      if(error.data) {
+        this.toastService.show(error.data, { classname: 'bg-danger text-light', delay: 5000 });
+
+      } else {
+        this.toastService.show('Get all voucher fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+      }
     })
   }
 
