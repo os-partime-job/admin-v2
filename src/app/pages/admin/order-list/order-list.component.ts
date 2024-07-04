@@ -18,6 +18,7 @@ export class OrderListComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   formAddDelivery:FormGroup;
   formUpdateStatusOrder:FormGroup;
+  formSearch:FormGroup;
   submitted = false;
   submittedDelivery = false;
   submittedUpdateStatusOrder = false;
@@ -56,6 +57,11 @@ export class OrderListComponent implements OnInit {
       customerId:[''],
       reason :['']
     });
+    this.formSearch = this.formBuilder.group({
+      orderId: [''],
+      phoneNumber:[''],
+      status :['']
+    });
 
     this.page = 1;
     this.listStatusOrder = listStatusOrder;
@@ -68,6 +74,15 @@ export class OrderListComponent implements OnInit {
       customer_id : 1,
       limit:this.pageSize,
       offset:(this.page-1)*this.pageSize,
+    } as any;
+    if(this.formSearchOrder['status'].value) {
+      request.status = this.formSearchOrder['status'].value;
+    }
+    if(this.formSearchOrder['phoneNumber'].value) {
+      request.phone_number = this.formSearchOrder['phoneNumber'].value;
+    }
+    if(this.formSearchOrder['orderId'].value) {
+      request.order_id = this.formSearchOrder['orderId'].value;
     }
     this.orderService.getOrdersAllUser(request).subscribe((res) =>{
       this.orders = res.data;
@@ -76,6 +91,9 @@ export class OrderListComponent implements OnInit {
       this.toastService.show('Error get list order', { classname: 'bg-danger text-light', delay: 5000 });
 
     })
+  }
+  get formSearchOrder() {
+    return this.formSearch.controls;
   }
 
   get formDelivery() {

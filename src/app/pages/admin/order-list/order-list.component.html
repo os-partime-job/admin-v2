@@ -1,6 +1,30 @@
 <div class="container-fluid">
 
   <app-page-title title="Order List Manage" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row" style="margin-bottom: 2%">
+    <div class="justify-content-center"><h4 style="text-align: center" class="text-primary">Search Order</h4></div>
+    <form (ngSubmit)="getAllOrder()" [formGroup]="formSearch">
+      <div class="row">
+        <div class="col-sm">
+          <label class="control-label text-primary">Status: </label>
+          <input class="form-control" type="text" name="status" autocomplete="off" formControlName="status">
+        </div>
+        <div class="col-sm">
+          <label class="control-label text-primary">Phone Number: </label>
+          <input class="form-control" type="text" name="phoneNumber" autocomplete="off" formControlName="phoneNumber">
+        </div>
+        <div class="col-sm">
+          <label class="control-label text-primary">orderId: </label>
+          <input class="form-control" type="text" name="orderId" autocomplete="off" formControlName="orderId">
+        </div>
+      </div>
+    </form>
+    <div class="card-footer bg-transparent border-top">
+      <div class="text-center">
+        <a (click)="getAllOrder()" class="btn btn-primary"> Search Order</a>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-12">
