@@ -7,6 +7,8 @@ import {ListDeliveryComponent} from "./list-delivery/list-delivery.component";
 import {UserManageComponent} from "./user-manage/user-manage.component";
 import {VoucherManageComponent} from "./vocher-manage/voucher-manage.component";
 import {SaleManageComponent} from "./sale-manage/sale-manage.component";
+import {SaleInfoComponent} from "./sale-info/sale-info.component";
+import {SaleListComponent} from "./sale-list/sale-list.component";
 const routes: Routes = [
   {
     path:'manage-product',
@@ -31,6 +33,14 @@ const routes: Routes = [
   {
     path:'sale-manage',
     component:SaleManageComponent,
+  },
+  {
+    path:'sale-list',
+    component:SaleListComponent,
+  },
+  {
+    path:'sale-info',
+    component:SaleInfoComponent,
   },
 
 ];

@@ -93,6 +93,20 @@ export const MENU: MenuItem[] = [
                 parentId: 130,
                 role:'ROLE_SALE'
               },
+              {
+                id: 137,
+                label: 'Sale List',
+                link: '/admin/sale-list',
+                parentId: 130,
+                role:'ROLE_SALE'
+              },
+              {
+                id: 138,
+                label: 'Sale Info',
+                link: '/admin/sale-info',
+                parentId: 130,
+                role:'ROLE_SALE'
+              },
             ]
           },
         ]

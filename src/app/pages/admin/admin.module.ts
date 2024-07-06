@@ -21,6 +21,9 @@ import { ListDeliveryComponent } from './list-delivery/list-delivery.component';
 import { UserManageComponent } from './user-manage/user-manage.component';
 import { VoucherManageComponent } from './vocher-manage/voucher-manage.component';
 import { SaleManageComponent } from './sale-manage/sale-manage.component';
+import { SaleListComponent } from './sale-list/sale-list.component';
+import { SaleInfoComponent } from './sale-info/sale-info.component';
+import {NgApexchartsModule} from "ng-apexcharts";
 
 const config: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -36,25 +39,28 @@ const config: DropzoneConfigInterface = {
     ListDeliveryComponent,
     UserManageComponent,
     VoucherManageComponent,
-    SaleManageComponent
+    SaleManageComponent,
+    SaleListComponent,
+    SaleInfoComponent
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    NgbNavModule,
-    NgbModalModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-    NgbDropdownModule,
-    DropzoneModule,
-    ReactiveFormsModule,
-    UIModule,
-    WidgetModule,
-    Ng5SliderModule,
-    NgSelectModule,
-    NgbPaginationModule,
-    NgbModule
-  ],
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        NgbNavModule,
+        NgbModalModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        NgbDropdownModule,
+        DropzoneModule,
+        ReactiveFormsModule,
+        UIModule,
+        WidgetModule,
+        Ng5SliderModule,
+        NgSelectModule,
+        NgbPaginationModule,
+        NgbModule,
+        NgApexchartsModule
+    ],
   exports: [
     ToastsContainer
   ],

@@ -1,0 +1,281 @@
+<div class="container-fluid">
+
+  <app-page-title title="Sale List Manage" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row" style="margin-bottom: 2%">
+    <div class="justify-content-center"><h4 style="text-align: center" class="text-primary">Search Order</h4></div>
+    <form (ngSubmit)="getAllSaleList()" [formGroup]="formSearch">
+      <div class="row">
+        <div class="col-sm">
+          <label class="control-label text-primary">Status: </label>
+          <input class="form-control" type="text" name="status" autocomplete="off" formControlName="status">
+        </div>
+        <div class="col-sm">
+          <label class="control-label text-primary">Sale id: </label>
+          <input class="form-control" type="text" name="sale_id" autocomplete="off" formControlName="sale_id">
+        </div>
+        <div class="col-sm">
+          <label class="control-label text-primary">customer_id: </label>
+          <input class="form-control" type="text" name="customer_id" autocomplete="off" formControlName="customer_id">
+        </div>
+      </div>
+    </form>
+    <div class="card-footer bg-transparent border-top">
+      <div class="text-center">
+        <a (click)="getAllSaleList()" class="btn btn-primary"> Search Sale Information</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <!--          <div class="row mb-2">-->
+          <!--            <div class="col-sm-4">-->
+          <!--              <div class="search-box me-2 mb-2 d-inline-block">-->
+          <!--                <div class="position-relative">-->
+          <!--                  <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="term" />-->
+          <!--                  <i class="bx bx-search-alt search-icon"></i>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="col-sm-8">-->
+          <!--              <div class="text-sm-end">-->
+          <!--                <button type="button" class="btn btn-success btn-rounded mb-2 mr-2" (click)="openModal(content)">-->
+          <!--                  <i class="mdi mdi-plus me-1"></i> New Customers-->
+          <!--                </button>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            &lt;!&ndash; end col&ndash;&gt;-->
+          <!--          </div>-->
+          <div class="table-responsive">
+            <table class="table align-middle table-nowrap">
+              <thead>
+              <tr>
+                <!--                <th>#</th>-->
+                <th>Sale id</th>
+                <th>Total Price</th>
+                <th>Total Order</th>
+                <th>Total Price Success</th>
+                <th>Total Order Success</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of sales ;let i = index;">
+                <!--                <td>-->
+                <!--                  <div class="form-check font-size-16">-->
+                <!--                    <input id="customCheck{{i}}" type="checkbox" class="form-check-input" />-->
+                <!--                    <label class="form-check-label" for="customCheck{{i}}">&nbsp;</label>-->
+                <!--                  </div>-->
+                <!--                </td>-->
+                <td>{{item.sale_id}}</td>
+                <td>{{item.total_price}}</td>
+                <td>{{item.total_order}}</td>
+                <td>{{item.total_price_success}}</td>
+                <td>{{item.total_order_success}}</td>
+<!--                <td>{{item.totalPrice}}</td>-->
+<!--                <td>{{item.createdAt | date: 'dd MMM, YYYY'}}</td>-->
+<!--                <td>{{item.updatedAt | date: 'dd MMM, YYYY'}}</td>-->
+<!--                <td>{{item.phoneNumber}}</td>-->
+                <!--                <td>-->
+                <!--                  <p class="mb-1">{{item.phone}}</p>-->
+                <!--                  <p class="mb-0">{{item.email}}</p>-->
+                <!--                </td>-->
+
+                <!--                <td>{{item.address}}</td>-->
+                <!--                <td>-->
+                <!--                    <span class="badge bg-success font-size-12">-->
+                <!--                      <i class="mdi mdi-star me-1"></i>-->
+                <!--                      {{item.rating}}-->
+                <!--                    </span>-->
+                <!--                </td>-->
+                <!--                <td>{{item.balance}}</td>-->
+                <!--                <td>{{item.date | date: 'dd MMM, YYYY'}}</td>-->
+                <td>
+<!--                  <div class="dropdown" ngbDropdown placement="bottom-right">-->
+<!--                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" data-toggle="dropdown"-->
+<!--                       ngbDropdownToggle aria-expanded="false">-->
+<!--                      <i class="mdi mdi-dots-horizontal font-size-18"></i>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>-->
+<!--                      <li><a (click)="openUpdateStatusOrder(modalUpdateStatusOrder, item)" class="dropdown-item"><i-->
+<!--                        class="fas fa-pencil-alt text-success me-1"></i>-->
+<!--                        Update Status</a></li>-->
+<!--                      <li><a (click)="openModalAddDelivery(modalAddDelivery,item)" class="dropdown-item"><i-->
+<!--                        class="fa fa-plus text-primary me-1"></i>-->
+<!--                        Add Delivery</a></li>-->
+<!--                      &lt;!&ndash;                      <li><a href="javascript: void(0);" class="dropdown-item"><i&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        class="fas fa-trash-alt text-danger me-1"></i>&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        Delete</a></li>&ndash;&gt;-->
+
+<!--                    </ul>-->
+<!--                  </div>-->
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- pagination -->
+          <ngb-pagination [(page)]="page"
+                          [pageSize]="pageSize"
+                          [collectionSize]="count"
+                          (pageChange)="getAllSaleList()"
+                          class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+</div>
+
+<!-- Standard Modal -->
+<!--<ng-template #content role="document" let-modal>-->
+<!--  <div class="modal-header">-->
+<!--    <h5 class="modal-title mt-0">Add Customer</h5>-->
+<!--    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>-->
+<!--  </div>-->
+<!--  <div class="modal-body">-->
+<!--    <form (ngSubmit)="saveCustomer()" [formGroup]="formData">-->
+<!--      <div class="row">-->
+<!--        <div class="col-12">-->
+<!--          <div class="mb-3">-->
+<!--            <label class="control-label">Username</label>-->
+<!--            <input class="form-control" placeholder="Enter Username" type="text" name="title" autocomplete="off" formControlName="username"-->
+<!--                   [ngClass]="{'is-invalid': submitted && form.username.errors}" />-->
+<!--            <div *ngIf="submitted && form.username.errors" class="invalid-feedback">-->
+<!--              <span *ngIf="form.username.errors.required">Username is required.</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label class="control-label">Email</label>-->
+<!--            <input class="form-control" placeholder="Enter email" type="text" name="email" autocomplete="off" formControlName="email"-->
+<!--                   [ngClass]="{'is-invalid': submitted && form.email.errors}" />-->
+<!--            <div *ngIf="submitted && form.email.errors" class="invalid-feedback">-->
+<!--              <span *ngIf="form.email.errors.required">Email is required.</span>-->
+<!--              <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label class="control-label">Phone</label>-->
+<!--            <input class="form-control" placeholder="Enter phone" type="text" name="phone" autocomplete="off" formControlName="phone"-->
+<!--                   [ngClass]="{'is-invalid': submitted && form.phone.errors}" />-->
+<!--            <div *ngIf="submitted && form.phone.errors" class="invalid-feedback">-->
+<!--              <span *ngIf="form.phone.errors.required">Phone is required.</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label class="control-label">Address</label>-->
+<!--            <input class="form-control" placeholder="Enter address" type="text" autocomplete="off" name="address" formControlName="address"-->
+<!--                   [ngClass]="{'is-invalid': submitted && form.address.errors}" />-->
+<!--            <div *ngIf="submitted && form.address.errors" class="invalid-feedback">-->
+<!--              <span *ngIf="form.address.errors.required">Address is required.</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label class="control-label">Balance</label>-->
+<!--            <input class="form-control" placeholder="Enter balance" type="text" autocomplete="off" name="balance" formControlName="balance"-->
+<!--                   [ngClass]="{'is-invalid': submitted && form.address.errors}" />-->
+<!--            <div *ngIf="submitted && form.balance.errors" class="invalid-feedback">-->
+<!--              <span *ngIf="form.balance.errors.required">balance is required.</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn btn-success" id="btn-save-event">-->
+<!--        Save-->
+<!--      </button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</ng-template>-->
+<ng-template #modalAddDelivery role = "document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Add Delivery</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeEventModalAddDelivery()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="AddDelivery()" [formGroup]="formAddDelivery">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">orderId: </label>
+            <input class="form-control" type="text" name="orderId" autocomplete="off" formControlName="orderId"
+                   [ngClass]="{'is-invalid': submittedDelivery && formDelivery.orderId.errors}" />
+            <div *ngIf="submittedDelivery && formDelivery.orderId.errors" class="invalid-feedback">
+              <span *ngIf="formDelivery.orderId.errors.required">orderId is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Delivery: </label>
+            <select  *ngIf="listDelivery.length > 0" name ="deliveryId" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="deliveryId"
+                     [ngClass]="{'is-invalid': submittedDelivery && formDelivery.deliveryId.errors}">
+              <option *ngFor="let delivery of listDelivery" [value]="delivery.userId">{{ delivery?.userName }}</option>
+            </select>
+
+            <div *ngIf="submittedDelivery && formDelivery.deliveryId.errors" class="invalid-feedback">
+              <span *ngIf="formDelivery.deliveryId.errors.required">deliveryId is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-light me-1" (click)="closeEventModalAddDelivery()">
+        Close
+      </button>
+      <button type="submit" class="btn btn-success">
+        Save
+      </button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #modalUpdateStatusOrder role = "document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Update Status Order</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeEventModalUpdateStatus()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="updateStatusOrder()" [formGroup]="formUpdateStatusOrder">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">orderId: </label>
+            <input class="form-control" type="text" name="orderId" autocomplete="off" formControlName="orderId"
+                   [ngClass]="{'is-invalid': submittedUpdateStatusOrder && formUpdate.orderId.errors}" />
+            <div *ngIf="submittedUpdateStatusOrder && formUpdate.orderId.errors" class="invalid-feedback">
+              <span *ngIf="formUpdate.orderId.errors.required">orderId is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Status Order: </label>
+            <select  *ngIf="listDelivery.length > 0" name ="status" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="status"
+                     [ngClass]="{'is-invalid': submittedUpdateStatusOrder && formUpdate.status.errors}">
+              <option *ngFor="let status of listStatusOrder" [value]="status.value">{{ status?.key }}</option>
+            </select>
+
+            <div *ngIf="submittedUpdateStatusOrder && formUpdate.status.errors" class="invalid-feedback">
+              <span *ngIf="formUpdate.status.errors.required">Status is required.</span>
+            </div>
+          </div>
+          <div class="mb-3" *ngIf="formUpdate['status'].value === 'cancel'">
+            <label class="control-label">Reason: </label>
+            <input class="form-control" type="text" name="reason" autocomplete="off" formControlName="reason"
+                   [ngClass]="{'is-invalid': submittedUpdateStatusOrder && formUpdate.reason.errors}" />
+            <div *ngIf="submittedUpdateStatusOrder && formUpdate.reason.errors" class="invalid-feedback">
+              <span *ngIf="formUpdate.reason.errors.required">orderId is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-light me-1" (click)="closeEventModalUpdateStatus()">
+        Close
+      </button>
+      <button (click)="updateStatusOrder()" type="submit" class="btn btn-success">
+        Save
+      </button>
+    </form>
+  </div>
+</ng-template>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
