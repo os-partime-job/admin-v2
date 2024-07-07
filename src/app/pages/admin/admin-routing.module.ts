@@ -9,6 +9,8 @@ import {VoucherManageComponent} from "./vocher-manage/voucher-manage.component";
 import {SaleManageComponent} from "./sale-manage/sale-manage.component";
 import {SaleInfoComponent} from "./sale-info/sale-info.component";
 import {SaleListComponent} from "./sale-list/sale-list.component";
+import {InvoiceInfoComponent} from "./invoice-info/invoice-info.component";
+import {GiaInfoComponent} from "./gia-info/gia-info.component";
 const routes: Routes = [
   {
     path:'manage-product',
@@ -41,6 +43,14 @@ const routes: Routes = [
   {
     path:'sale-info',
     component:SaleInfoComponent,
+  },
+  {
+    path: 'invoice-info',
+    component: InvoiceInfoComponent,
+  },
+  {
+    path: 'gia-info',
+    component: GiaInfoComponent,
   },
 
 ];

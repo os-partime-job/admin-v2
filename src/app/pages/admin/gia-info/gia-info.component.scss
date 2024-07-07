@@ -1,0 +1,194 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.certificate {
+  display: flex;
+  background: white;
+  padding: 20px;
+  max-width: 80%;
+  margin: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  height: 1000px;
+}
+
+.left-page, .right-page {
+  flex: 1;
+  padding: 20px;
+}
+
+.left-page {
+  border-right: 1px solid #ccc;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+}
+.header img{
+  width: 400px;
+}
+
+.header h1 {
+  font-size: 2.5em;
+}
+.gia-report{
+  text-align: center;
+}
+.gia-report .title{
+  color: #b49a58;
+  font-size: 18px;
+}
+.gia-report .number{
+  font-size: 30px;
+}
+.gia-report .comment{
+  font-size: 13px;
+  margin: 0px;
+  color: #b49a58;
+  margin-top: 26px;
+}
+
+.section {
+  background-image: url('src/assets/images/gia/paper_fibers.png');
+  background-repeat: repeat;
+}
+.section-page{
+  display: flex;
+}
+
+.grading-img {
+  text-align: center;
+}
+
+.additional p:last-child{
+  height: 230px;
+}
+
+.grading-img img{
+  width: 290px;
+}
+
+.link-web p{
+  color: #b49a58;
+  text-align: center;
+}
+
+.proportion-cetificate{
+  text-align: center;
+  font-size: 14px;
+}
+.proportion-cetificate img {
+  margin-top: 110px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+.proportion-intension p{
+  text-align: justify;
+}
+.section .title {
+  font-size: 1.2em;
+  color: #fff;
+  padding: 5px 15px;
+  font-family: serif;
+  background-color: #b49a58;
+}
+.proportion-right{
+  margin-right: 10px;
+  width: 50%;
+  height: 300px;
+}
+.proportion-content{
+  text-align: center;
+}
+
+.content{
+  margin-left: 25px;
+}
+.proportion-img img{
+  margin-top: 20px;
+  width: 200px;
+}
+
+.section p {
+  margin: 0px;
+  padding: 5px 0px;
+}
+
+.section p span {
+  font-weight: bold;
+}
+
+.proportion-intension p {
+  font-size: 13px;
+}
+
+.qr{
+  margin-top: 20px;
+  background: #fff;
+}
+.qr img{
+  margin-top: 30px;
+  width: 290px;
+}
+
+.proportions .diagram, .grading-scales .scales {
+  margin-top: 10px;
+}
+
+.grading-scales .scales {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.security-featrue{
+  display: flex;
+  border: 1px solid #b7a56b;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.security-featrue .icon{
+  width: 50px;
+  height: 50px;
+  background-color: #d3d3d3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.security-featrue .text {
+  color: #b7a56b;
+  text-align: justify;
+  margin: auto;
+}
+
+.security-featrue .icon img {
+  width: 30px;
+  height: 30px;
+}
+
+
+.scale h3 {
+  font-size: 1em;
+  color: #b49a58;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer p {
+  font-size: 0.9em;
+  color: #aaa;
+}

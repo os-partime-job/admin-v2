@@ -7,6 +7,7 @@ import {OrderService} from "../../../core/services/order.service";
 import {ToastService} from "../../../core/toast/toast-service";
 import {DeliverService} from "../../../core/services/deliver.service";
 import {listStatusOrder} from "./list-status-order";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order-list',
@@ -192,5 +193,13 @@ export class OrderListComponent implements OnInit {
     this.formUpdate['customerId'].setValue(null);
     this.formUpdate['status'].setValue(null);
     this.formUpdate['reason'].setValue(null);
+  }
+  openGiaInfo(id:any) {
+    let url = `${environment.backEndConfig.pageApi}/admin/gia-info?orderId=${id}`;
+    window.open(url,"_blank");
+  }
+  openInvoiceInfo(id:any) {
+    let url = `${environment.backEndConfig.pageApi}/admin/invoice-info?orderId=${id}`;
+    window.open(url,"_blank");
   }
 }

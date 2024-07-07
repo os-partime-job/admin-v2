@@ -93,4 +93,13 @@ export class OrderService {
   getDetailSale(request: any): Observable<any> {
     return this.http.post(`${environment.backEndConfig.apiUrl}/order/sale_detail`, request, this.httpOptions)
   }
+  getInvoice(id:string): Observable<any> {
+    return this.http.get<any>(`${environment.backEndConfig.apiUrl}/order/get_invoice?orderId=${id}`,this.httpOptions)
+  }
+  getInvoiceDetail(request:any): Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/order/invoice_detail`,request,this.httpOptions)
+  }
+  getGIAInfo(request:any): Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/order/gia_info`,request,this.httpOptions)
+  }
 }

@@ -24,6 +24,8 @@ import { SaleManageComponent } from './sale-manage/sale-manage.component';
 import { SaleListComponent } from './sale-list/sale-list.component';
 import { SaleInfoComponent } from './sale-info/sale-info.component';
 import {NgApexchartsModule} from "ng-apexcharts";
+import { GiaInfoComponent } from './gia-info/gia-info.component';
+import { InvoiceInfoComponent } from './invoice-info/invoice-info.component';
 
 const config: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -41,7 +43,9 @@ const config: DropzoneConfigInterface = {
     VoucherManageComponent,
     SaleManageComponent,
     SaleListComponent,
-    SaleInfoComponent
+    SaleInfoComponent,
+    GiaInfoComponent,
+    InvoiceInfoComponent
   ],
     imports: [
         CommonModule,
