@@ -10,7 +10,7 @@ body {
   display: flex;
   background: white;
   padding: 20px;
-  max-width: 80%;
+  max-width: 90%;
   margin: auto;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -55,9 +55,10 @@ body {
   margin-top: 26px;
 }
 
-.section {
-  background-image: url('src/assets/images/gia/paper_fibers.png');
+.section1 {
+  background-image: url('../../../../assets/images/gia/paper_fibers.png');
   background-repeat: repeat;
+  margin-top: 0px;
 }
 .section-page{
   display: flex;
@@ -85,14 +86,14 @@ body {
   font-size: 14px;
 }
 .proportion-cetificate img {
-  margin-top: 110px;
+  margin-top: 60px;
   width: 300px;
   margin-bottom: 30px;
 }
 .proportion-intension p{
   text-align: justify;
 }
-.section .title {
+.section1 .title {
   font-size: 1.2em;
   color: #fff;
   padding: 5px 15px;
@@ -116,12 +117,12 @@ body {
   width: 200px;
 }
 
-.section p {
+.section1 p {
   margin: 0px;
   padding: 5px 0px;
 }
 
-.section p span {
+.section1 p span {
   font-weight: bold;
 }
 

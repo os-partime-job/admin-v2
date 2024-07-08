@@ -1,90 +1,93 @@
-<div class="certificate" *ngFor="let gia of giaInfo">
-  <div class="left-page">
-    <div class="header">
-      <img src="./assets/images/gia/logo-gia.jpg" alt="GIA Logo">
-    </div>
-    <div class="section">
-      <p class="title">GIA DIAMOND DOSSIER®</p>
-      <div class="content">
-        <p><span>{{formatDateString(gia?.diamond?.createAt)}}</span></p>
-        <p><span>GIA Report Number:</span> {{gia?.invoice_id}}</p>
-        <p><span>Shape and Cutting Style:</span> Round Brilliant</p>
-        <p><span>Measurements:</span> 6.41 - 6.43 x 3.97 mm</p>
+<div *ngFor="let gia of giaInfo">
+  <div class="certificate" >
+    <div class="left-page">
+      <div class="header">
+        <img src="./assets/images/gia/logo-gia.jpg" alt="GIA Logo">
+      </div>
+      <div class="section1">
+        <p class="title">GIA DIAMOND DOSSIER®</p>
+        <div class="content">
+          <p><span>{{formatDateString(gia?.diamond?.createAt)}}</span></p>
+          <p><span>GIA Report Number:</span> {{gia?.invoice_id}}</p>
+          <p><span>Shape and Cutting Style:</span> Round Brilliant</p>
+          <p><span>Measurements:</span> 6.41 - 6.43 x 3.97 mm</p>
+        </div>
+      </div>
+      <div class="section1">
+        <p class="title">GRADING RESULTS</p>
+        <div class="content">
+          <p><span>Carat Weight:</span> {{gia?.carat}} carat</p>
+          <p><span>Color Grade:</span> {{gia?.color}}</p>
+          <p><span>Clarity Grade:</span> {{gia?.clarity}}</p>
+          <p><span>Cut Grade:</span> {{gia?.cut}}</p>
+        </div>
+      </div>
+      <div class="section1">
+        <p class="title">ADDITIONAL GRADING INFORMATION</p>
+        <div class="content additional">
+          <p><span>Polish:</span> Excellent</p>
+          <p><span>Symmetry:</span> Excellent</p>
+          <p><span>Fluorescence:</span> None</p>
+          <p><span>Clarity Characteristics:</span> Crystal, Feather</p>
+          <p><span>Inscription(s):</span> GIA 2141438172, YOUR LOGO OR PERSONAL MESSAGE HERE</p>
+          <p><span>Comments:</span> **SAMPLE**SAMPLE**SAMPLE**SAMPLE**</p>
+        </div>
+      </div>
+      <div class="link-web">
+        <p>www.gia.edu</p>
       </div>
     </div>
-    <div class="section">
-      <p class="title">GRADING RESULTS</p>
-      <div class="content">
-        <p><span>Carat Weight:</span> {{gia?.carat}} carat</p>
-        <p><span>Color Grade:</span> {{gia?.color}}</p>
-        <p><span>Clarity Grade:</span> {{gia?.clarity}}</p>
-        <p><span>Cut Grade:</span> {{gia?.cut}}</p>
+    <div class="right-page">
+      <div class="gia-report">
+        <p class="title">GIA REPORT</p>
+        <span class="number">{{gia?.invoice_id}}</span>
+        <p class="comment">Vetify this report at gia.edu</p>
       </div>
-    </div>
-    <div class="section">
-      <p class="title">ADDITIONAL GRADING INFORMATION</p>
-      <div class="content additional">
-        <p><span>Polish:</span> Excellent</p>
-        <p><span>Symmetry:</span> Excellent</p>
-        <p><span>Fluorescence:</span> None</p>
-        <p><span>Clarity Characteristics:</span> Crystal, Feather</p>
-        <p><span>Inscription(s):</span> GIA 2141438172, YOUR LOGO OR PERSONAL MESSAGE HERE</p>
-        <p><span>Comments:</span> **SAMPLE**SAMPLE**SAMPLE**SAMPLE**</p>
-      </div>
-    </div>
-    <div class="link-web">
-      <p>www.gia.edu</p>
-    </div>
-  </div>
-  <div class="right-page">
-    <div class="gia-report">
-      <p class="title">GIA REPORT</p>
-      <span class="number">{{gia?.invoice_id}}</span>
-      <p class="comment">Vetify this report at gia.edu</p>
-    </div>
-    <div class="section-page">
-      <div class="section proportion-right">
-        <div class="">
-          <p class="title">GIA DIAMOND DOSSIER®</p>
-          <div class="proportion-content">
-            <div class="proportion-img">
-              <img src="./assets/images/gia/proportion.png" alt="">
-              <p>Profile to actual proportions</p>
+      <div class="section-page">
+        <div class="section1 proportion-right">
+          <div class="">
+            <p class="title">GIA DIAMOND DOSSIER®</p>
+            <div class="proportion-content">
+              <div class="proportion-img">
+                <img src="./assets/images/gia/proportion.png" alt="">
+                <p>Profile to actual proportions</p>
+              </div>
+            </div>
+          </div>
+          <div class="proportion-cetificate">
+            <img src="./assets/images/gia/cetificate.jpg" alt="">
+          </div>
+          <div class="proportion-intension">
+            <p>The results documented in this report refer only to the
+              diamond described, and were obtained using the technique:
+              and equipment available to GIA at the time of examination
+              This report is not a guarantee or valuation. For additiona
+              information and important limitations and disclaimer:
+              please see www.gia.edu/terms or call +1 800 421 7250 •
+              +1 760 603 4500. ©2013 Gemological Institute of America, Int</p>
+          </div>
+          <div class="security-featrue">
+            <div class="icon">
+              <img src="./assets/images/gia/lock-locked-svgrepo-com.svg" alt="">
+            </div>
+            <div class="text">
+              The security features in this document, including the hologram, security screen and microprint lines, in addition to those not listed exceed document security industry guidelines.
             </div>
           </div>
         </div>
-        <div class="proportion-cetificate">
-          <img src="./assets/images/gia/cetificate.jpg" alt="">
-        </div>
-        <div class="proportion-intension">
-          <p>The results documented in this report refer only to the
-            diamond described, and were obtained using the technique:
-            and equipment available to GIA at the time of examination
-            This report is not a guarantee or valuation. For additiona
-            information and important limitations and disclaimer:
-            please see www.gia.edu/terms or call +1 800 421 7250 •
-            +1 760 603 4500. ©2013 Gemological Institute of America, Int</p>
-        </div>
-        <div class="security-featrue">
-          <div class="icon">
-            <img src="./assets/images/gia/lock-locked-svgrepo-com.svg" alt="">
+        <div class="section1 ">
+          <p class="title">GIA DIAMOND DOSSIER®</p>
+          <div class="grading-content">
+            <div class="grading-img">
+              <img src="./assets/images/gia/grading.jpg" alt="">
+            </div>
           </div>
-          <div class="text">
-            The security features in this document, including the hologram, security screen and microprint lines, in addition to those not listed exceed document security industry guidelines.
+          <div class="qr">
+            <img src="./assets/images/gia/qr.png" alt="">
           </div>
-        </div>
-      </div>
-      <div class="section ">
-        <p class="title">GIA DIAMOND DOSSIER®</p>
-        <div class="grading-content">
-          <div class="grading-img">
-            <img src="./assets/images/gia/grading.jpg" alt="">
-          </div>
-        </div>
-        <div class="qr">
-          <img src="./assets/images/gia/qr.png" alt="">
         </div>
       </div>
     </div>
   </div>
 </div>
+
