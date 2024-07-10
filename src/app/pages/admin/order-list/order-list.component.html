@@ -109,11 +109,11 @@
                       <li><a (click)="openModalAddDelivery(modalAddDelivery,item)" class="dropdown-item"><i
                         class="fa fa-plus text-primary me-1"></i>
                       Add Delivery</a></li>
-                      <li><a (click)="openInvoiceInfo(item?.uniqueOrderId)" class="dropdown-item"><i
-                        class="fa fa-plus text-primary me-1"></i>
+                      <li *ngIf="item.status != 'waiting payment'"><a (click)="openInvoiceInfo(item?.uniqueOrderId)" class="dropdown-item"><i
+                        class="fas fa-address-book text-secondary me-1"></i>
                         Open Warranty Card</a></li>
-                      <li><a (click)="openGiaInfo(item?.uniqueOrderId)" class="dropdown-item"><i
-                        class="fa fa-plus text-primary me-1"></i>
+                      <li *ngIf="item.status != 'waiting payment'"><a (click)="openGiaInfo(item?.uniqueOrderId)" class="dropdown-item"><i
+                        class="fas fa-book text-info me-1"></i>
                         Open GIA Info</a></li>
 <!--                      <li><a href="javascript: void(0);" class="dropdown-item"><i-->
 <!--                        class="fas fa-trash-alt text-danger me-1"></i>-->
