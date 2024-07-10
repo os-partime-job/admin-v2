@@ -8,6 +8,7 @@ import {ToastService} from "../../../core/toast/toast-service";
 import {DeliverService} from "../../../core/services/deliver.service";
 import {listStatusOrder} from "./list-status-order";
 import { environment } from 'src/environments/environment';
+import {listStatusDelivery} from "./ListStatusDelivery";
 
 @Component({
   selector: 'app-order-list',
@@ -32,6 +33,7 @@ export class OrderListComponent implements OnInit {
   searchOrder:string = '';
   listDelivery : any[];
   listStatusOrder: any[];
+  listStatusDelivery: any[];
   maxNumber = 1000000;
 
   constructor(private modalService: NgbModal,
@@ -54,9 +56,10 @@ export class OrderListComponent implements OnInit {
     });
     this.formUpdateStatusOrder = this.formBuilder.group({
       orderId: [{value:'',  disabled: true}, [Validators.required]],
-      status: ['', [Validators.required]],
+      status_order: ['', [Validators.required]],
       customerId:[''],
-      reason :['']
+      reason :[''],
+      status_delivery:[''],
     });
     this.formSearch = this.formBuilder.group({
       orderId: [''],
@@ -66,6 +69,7 @@ export class OrderListComponent implements OnInit {
 
     this.page = 1;
     this.listStatusOrder = listStatusOrder;
+    this.listStatusDelivery = listStatusDelivery;
     this.getAllOrder();
     this.getAllDelivery();
   }
@@ -163,7 +167,8 @@ export class OrderListComponent implements OnInit {
   fetchDataFormUpdateStatusOrder(item: any){
     this.formUpdate['orderId'].setValue(item.uniqueOrderId);
     this.formUpdate['customerId'].setValue(item.customerId);
-    this.formUpdate['status'].setValue(item?.status);
+    this.formUpdate['status_order'].setValue(item?.status);
+    this.formUpdate['status_delivery'].setValue(item?.status_delivery);
   }
 
   updateStatusOrder() {
@@ -172,27 +177,34 @@ export class OrderListComponent implements OnInit {
         customer_id: this.formUpdate['customerId'].value,
         order_id: this.formUpdate['orderId'].value,
         // delivery_id: this.formUpdate['deliveryId'].value,
-        status: this.formUpdate['status'].value
+
       } as any;
-      if (this.formUpdate['status'].value === 'cancel') {
+      if (this.formUpdate['status_delivery'].value) {
+        request.status_delivery = this.formUpdate['status_delivery'].value
+      }
+      if (this.formUpdate['status_order'].value) {
+        request.status_order = this.formUpdate['status_order'].value
+      }
+      if (this.formUpdate['status_order'].value === 'cancel') {
         request.reason = this.formUpdate['reason'].value
       }
       this.orderService.updateStatusOrder(request).subscribe((res)=>{
-        this.toastService.show('Change status order success', { classname: 'bg-success text-light', delay: 5000 });
+        this.toastService.show('Update order success', { classname: 'bg-success text-light', delay: 5000 });
       }, error => {
-        this.toastService.show('Change status order fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+        this.toastService.show('Update order fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
       })
       this.closeEventModalUpdateStatus();
     }
     this.submittedUpdateStatusOrder = true;
   }
   closeEventModalUpdateStatus() {
-    this.modalService.dismissAll();
     this.formUpdate['orderId'].setValue(null);
-    this.formUpdate['deliveryId'].setValue(null);
+    // this.formUpdate['deliveryId'].setValue(null);
     this.formUpdate['customerId'].setValue(null);
-    this.formUpdate['status'].setValue(null);
+    this.formUpdate['status_order'].setValue(null);
     this.formUpdate['reason'].setValue(null);
+    this.formUpdate['status_delivery'].setValue(null);
+    this.modalService.dismissAll();
   }
   openGiaInfo(id:any) {
     let url = `${environment.backEndConfig.pageApi}/admin/gia-info?orderId=${id}`;
