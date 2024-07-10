@@ -190,8 +190,10 @@ export class OrderListComponent implements OnInit {
       }
       this.orderService.updateStatusOrder(request).subscribe((res)=>{
         this.toastService.show('Update order success', { classname: 'bg-success text-light', delay: 5000 });
+        this.getAllOrder();
       }, error => {
         this.toastService.show('Update order fail!!!', { classname: 'bg-danger text-light', delay: 5000 });
+        this.getAllOrder();
       })
       this.closeEventModalUpdateStatus();
     }
