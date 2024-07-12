@@ -57,11 +57,12 @@
                 <th>Order Id</th>
                 <th>Order Date</th>
                 <th>Status</th>
+                <th>Delivery</th>
                 <th>Delivery Status</th>
                 <th>Customer</th>
                 <th>Total Price</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+<!--                <th>Created At</th>-->
+<!--                <th>Updated At</th>-->
                 <th>phone Number</th>
                 <th>Action</th>
               </tr>
@@ -78,11 +79,12 @@
                 <td>{{item.uniqueOrderId}}</td>
                 <td>{{item.orderDate | date: 'dd MMM, YYYY'}}</td>
                 <td>{{item.status}}</td>
+                <td>{{getDeliveryName(item.deliveryInfo?.deliverId)}}</td>
                 <td>{{item?.deliveryInfo?.status}}</td>
                 <td>{{item.customerId}}</td>
                 <td>{{item.totalPrice}}</td>
-                <td>{{item.createdAt | date: 'dd MMM, YYYY'}}</td>
-                <td>{{item.updatedAt | date: 'dd MMM, YYYY'}}</td>
+<!--                <td>{{item.createdAt | date: 'dd MMM, YYYY'}}</td>-->
+<!--                <td>{{item.updatedAt | date: 'dd MMM, YYYY'}}</td>-->
                 <td>{{item.phoneNumber}}</td>
 <!--                <td>-->
 <!--                  <p class="mb-1">{{item.phone}}</p>-->

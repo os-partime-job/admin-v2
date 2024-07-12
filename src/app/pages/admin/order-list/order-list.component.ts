@@ -129,6 +129,10 @@ export class OrderListComponent implements OnInit {
   fetchDataFormDelivery(data: any) {
     this.formDelivery['orderId'].setValue(data.uniqueOrderId);
     this.formDelivery['customerId'].setValue(data.customerId);
+    if(data?.deliveryInfo?.deliverId) {
+      const delivery = this.getDelivery(data?.deliveryInfo?.deliverId)
+      this.formDelivery['deliveryId'].setValue(delivery.userId);
+    }
   }
   /**
    * Open modal
@@ -246,5 +250,11 @@ export class OrderListComponent implements OnInit {
   openInvoiceInfo(id:any) {
     let url = `${environment.backEndConfig.pageApi}/admin/invoice-info?orderId=${id}`;
     window.open(url,"_blank");
+  }
+  getDelivery(_id:any) {
+    return this.listDelivery.find(({id}) =>id === _id);
+  }
+  getDeliveryName(_id:any) {
+    return this.listDelivery.find(({id}) =>id === _id)?.userName;
   }
 }
