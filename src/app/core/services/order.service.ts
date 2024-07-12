@@ -102,4 +102,16 @@ export class OrderService {
   getGIAInfo(request:any): Observable<any> {
     return this.http.post<any>(`${environment.backEndConfig.apiUrl}/order/gia_info`,request,this.httpOptions)
   }
+  getAllElementOfDiamond(): Observable<any> {
+    return this.http.get<any>(`${environment.backEndConfig.apiUrl}/diamond/list-all-diamond`,this.httpOptions)
+  }
+  createDiamond(request: any): Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/diamond/create`, request, this.httpOptions)
+  }
+  updateDiamond(request: any): Observable<any> {
+    return this.http.post<any>(`${environment.backEndConfig.apiUrl}/diamond/update`, request, this.httpOptions)
+  }
+  public getDiamondList():Observable<any> {
+    return  this.http.get<any[]>(`${environment.backEndConfig.apiUrl}/diamond/list`, this.httpOptions);
+  }
 }

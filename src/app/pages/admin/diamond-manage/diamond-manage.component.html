@@ -1,0 +1,336 @@
+<div class="container-fluid">
+
+  <app-page-title title="Diamond List Manage" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <div class="search-box me-2 mb-2 d-inline-block">
+                <div class="position-relative">
+                  <!--                              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="term" />-->
+                  <!--                              <i class="bx bx-search-alt search-icon"></i>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="text-sm-end">
+                <button type="button" class="btn btn-success btn-rounded mb-2 mr-2" (click)="openModal(content)">
+                  <i class="mdi mdi-plus me-1"></i> New Diamond
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle table-nowrap">
+              <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Carat</th>
+                <th>Price</th>
+                <th>Price Diamond</th>
+                <th>Clarity</th>
+                <th>Cut</th>
+                <th>Polish</th>
+                <th>Color</th>
+                <th>Shape</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of diamonds ;let i = index;">
+                <!--                <td>-->
+                <!--                  <div class="form-check font-size-16">-->
+                <!--                    <input id="customCheck{{i}}" type="checkbox" class="form-check-input" />-->
+                <!--                    <label class="form-check-label" for="customCheck{{i}}">&nbsp;</label>-->
+                <!--                  </div>-->
+                <!--                </td>-->
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.carat}}</td>
+                <td>{{convertNumber(item.price)}} VNĐ</td>
+                <td>{{convertNumber(item.priceDiamond)}} VNĐ</td>
+                <td>{{getNameClarita(item.clarityId)}}</td>
+                <td>{{getNameCut(item.cutId)}}</td>
+                <td>{{getNamePolishe(item.polishId)}}</td>
+                <td>{{getNameColor(item.colorId)}}</td>
+                <td>{{getNameShape(item.shapeId)}}</td>
+<!--                <td>{{item.createdAt| date: 'dd MMM, YYYY'}}</td>-->
+                <td>
+                  <div class="dropdown" ngbDropdown placement="bottom-right">
+                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" data-toggle="dropdown"
+                       ngbDropdownToggle aria-expanded="false">
+                      <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                      <li><a (click)="openModalUpdate(modalUpdateDiamond,item)" class="dropdown-item"><i
+                        class="fas fa-pencil-alt text-success me-1"></i>
+                        Update Diamond</a></li>
+<!--                      <li><a (click)="deleteCoupon(item)" class="dropdown-item"><i-->
+<!--                        class="fas fa-trash-alt text-danger me-1"></i>-->
+<!--                        Delete</a></li>-->
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- pagination -->
+          <!--          <ngb-pagination [collectionSize]="50" [(page)]="currentpage"-->
+          <!--                          class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">-->
+          <!--          </ngb-pagination>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+</div>
+
+<!-- Standard Modal -->
+<ng-template #content role="document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Add Diamond</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="save()" [formGroup]="formData">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">Name Diamond</label>
+            <input class="form-control" placeholder="Enter Name Diamond" type="text" name="name_diamond" autocomplete="off" formControlName="name_diamond"
+                   [ngClass]="{'is-invalid': submitted && form.name_diamond.errors}" />
+            <div *ngIf="submitted && form.name_diamond.errors" class="invalid-feedback">
+              <span *ngIf="form.name_diamond.errors.required">Name Diamond is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Price Diamond</label>
+            <input type="number" class="form-control" placeholder="Enter Price diamond" name="price_diamond" autocomplete="off" formControlName="price_diamond"
+                   [ngClass]="{'is-invalid': submitted && form.price_diamond.errors}" />
+            <div *ngIf="submitted && form.price_diamond.errors" class="invalid-feedback">
+              <span *ngIf="form.price_diamond.errors.required">Price Diamond is required.</span>
+<!--              <span *ngIf="form.discountPercent.errors.min">Discount Percent is min 1.</span>-->
+<!--              <span *ngIf="form.discountPercent.errors.max">Discount Percent is max 99.</span>-->
+              <!--              <span *ngIf="form.discountPercent.errors.pattern">This value should be a valid email.</span>-->
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Carat</label>
+            <input class="form-control" placeholder="Enter carat" type="number" name="carat" autocomplete="off" formControlName="carat"
+                   [ngClass]="{'is-invalid': submitted && form.carat.errors}" />
+            <div *ngIf="submitted && form.carat.errors" class="invalid-feedback">
+              <span *ngIf="form.carat.errors.required">Carat is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Polish: </label>
+            <select  *ngIf="polishes.length > 0" name ="polish" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="polish"
+                     [ngClass]="{'is-invalid': submitted && form.polish.errors}">
+              <option *ngFor="let polish of polishes" [value]="polish.id">{{ polish?.polish }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.polish.errors" class="invalid-feedback">
+              <span *ngIf="form.polish.errors.required">Polish is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Cut: </label>
+            <select  *ngIf="polishes.length > 0" name ="cut" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="cut"
+                     [ngClass]="{'is-invalid': submitted && form.cut.errors}">
+              <option *ngFor="let cut of cuts" [value]="cut.id">{{ cut?.cut }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.cut.errors" class="invalid-feedback">
+              <span *ngIf="form.cut.errors.required">Cut is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Clarity: </label>
+            <select  *ngIf="clarities.length > 0" name ="clarity" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="clarity"
+                     [ngClass]="{'is-invalid': submitted && form.clarity.errors}">
+              <option *ngFor="let clarity of clarities" [value]="clarity.id">{{ clarity?.clarity }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.clarity.errors" class="invalid-feedback">
+              <span *ngIf="form.clarity.errors.required">Clarity is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Color: </label>
+            <select  *ngIf="colors.length > 0" name ="color" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="color"
+                     [ngClass]="{'is-invalid': submitted && form.color.errors}">
+              <option *ngFor="let color of colors" [value]="color.id">{{ color?.color }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.color.errors" class="invalid-feedback">
+              <span *ngIf="form.color.errors.required">Polish is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Origin: </label>
+            <select  *ngIf="origins.length > 0" name ="origin" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="origin"
+                     [ngClass]="{'is-invalid': submitted && form.origin.errors}">
+              <option *ngFor="let origin of origins" [value]="origin.id">{{ origin?.originName }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.origin.errors" class="invalid-feedback">
+              <span *ngIf="form.origin.errors.required">Origin is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Shape: </label>
+            <select  *ngIf="shapes.length > 0" name ="shape" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="shape"
+                     [ngClass]="{'is-invalid': submitted && form.shape.errors}">
+              <option *ngFor="let shape of shapes" [value]="shape.id">{{ shape?.shape }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.shape.errors" class="invalid-feedback">
+              <span *ngIf="form.shape.errors.required">Shape is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" id="btn-save-event" (click)="save()">
+        Save
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #modalUpdateDiamond role = "document" let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Update Diamond</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="closeEventModalUpdate()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="update()" [formGroup]="formUpdate">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label class="control-label">Name Diamond</label>
+            <input class="form-control" placeholder="Enter Name Diamond" type="text" name="name_diamond" autocomplete="off" formControlName="name_diamond"
+                   [ngClass]="{'is-invalid': submitted && form.name_diamond.errors}" />
+            <div *ngIf="submitted && form.name_diamond.errors" class="invalid-feedback">
+              <span *ngIf="form.name_diamond.errors.required">Name Diamond is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Price Diamond</label>
+            <input type="number" class="form-control" placeholder="Enter Price diamond" name="price_diamond" autocomplete="off" formControlName="price_diamond"
+                   [ngClass]="{'is-invalid': submitted && form.price_diamond.errors}" />
+            <div *ngIf="submitted && form.price_diamond.errors" class="invalid-feedback">
+              <span *ngIf="form.price_diamond.errors.required">Price Diamond is required.</span>
+              <!--              <span *ngIf="form.discountPercent.errors.min">Discount Percent is min 1.</span>-->
+              <!--              <span *ngIf="form.discountPercent.errors.max">Discount Percent is max 99.</span>-->
+              <!--              <span *ngIf="form.discountPercent.errors.pattern">This value should be a valid email.</span>-->
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Carat</label>
+            <input class="form-control" placeholder="Enter carat" type="number" name="carat" autocomplete="off" formControlName="carat"
+                   [ngClass]="{'is-invalid': submitted && form.carat.errors}" />
+            <div *ngIf="submitted && form.carat.errors" class="invalid-feedback">
+              <span *ngIf="form.carat.errors.required">Carat is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Polish: </label>
+            <select  *ngIf="polishes.length > 0" name ="polish" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="polish"
+                     [ngClass]="{'is-invalid': submitted && form.polish.errors}">
+              <option *ngFor="let polish of polishes" [value]="polish.id">{{ polish?.polish }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.polish.errors" class="invalid-feedback">
+              <span *ngIf="form.polish.errors.required">Polish is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Cut: </label>
+            <select  *ngIf="polishes.length > 0" name ="cut" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="cut"
+                     [ngClass]="{'is-invalid': submitted && form.cut.errors}">
+              <option *ngFor="let cut of cuts" [value]="cut.id">{{ cut?.cut }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.cut.errors" class="invalid-feedback">
+              <span *ngIf="form.cut.errors.required">Cut is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Clarity: </label>
+            <select  *ngIf="clarities.length > 0" name ="clarity" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="clarity"
+                     [ngClass]="{'is-invalid': submitted && form.clarity.errors}">
+              <option *ngFor="let clarity of clarities" [value]="clarity.id">{{ clarity?.clarity }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.clarity.errors" class="invalid-feedback">
+              <span *ngIf="form.clarity.errors.required">Clarity is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Color: </label>
+            <select  *ngIf="colors.length > 0" name ="color" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="color"
+                     [ngClass]="{'is-invalid': submitted && form.color.errors}">
+              <option *ngFor="let color of colors" [value]="color.id">{{ color?.color }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.color.errors" class="invalid-feedback">
+              <span *ngIf="form.color.errors.required">Polish is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Origin: </label>
+            <select  *ngIf="origins.length > 0" name ="origin" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="origin"
+                     [ngClass]="{'is-invalid': submitted && form.origin.errors}">
+              <option *ngFor="let origin of origins" [value]="origin.id">{{ origin?.originName }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.origin.errors" class="invalid-feedback">
+              <span *ngIf="form.origin.errors.required">Origin is required.</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="control-label">Shape: </label>
+            <select  *ngIf="shapes.length > 0" name ="shape" class="form-select" style="width: 80%;"
+                     autocomplete="off" formControlName="shape"
+                     [ngClass]="{'is-invalid': submitted && form.shape.errors}">
+              <option *ngFor="let shape of shapes" [value]="shape.id">{{ shape?.shape }}</option>
+            </select>
+
+            <div *ngIf="submitted && form.shape.errors" class="invalid-feedback">
+              <span *ngIf="form.shape.errors.required">Shape is required.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light me-1" (click)="closeEventModalUpdate()">
+    Close
+  </button>
+    <button type="submit" class="btn btn-success" (click)="update()">
+      Save
+    </button>
+  </div>
+</ng-template>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+
+

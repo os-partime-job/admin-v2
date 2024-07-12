@@ -107,6 +107,13 @@ export const MENU: MenuItem[] = [
                 parentId: 130,
                 role:'ROLE_SALE'
               },
+              {
+                id: 139,
+                label: 'Diamond Manage',
+                link: '/admin/diamond-manage',
+                parentId: 130,
+                role:'ROLE_ADMIN'
+              },
             ]
           },
         ]

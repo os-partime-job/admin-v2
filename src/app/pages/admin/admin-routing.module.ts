@@ -11,6 +11,7 @@ import {SaleInfoComponent} from "./sale-info/sale-info.component";
 import {SaleListComponent} from "./sale-list/sale-list.component";
 import {InvoiceInfoComponent} from "./invoice-info/invoice-info.component";
 import {GiaInfoComponent} from "./gia-info/gia-info.component";
+import {DiamondManageComponent} from "./diamond-manage/diamond-manage.component";
 const routes: Routes = [
   {
     path:'manage-product',
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'gia-info',
     component: GiaInfoComponent,
+  },
+  {
+    path: 'diamond-manage',
+    component: DiamondManageComponent,
   },
 
 ];
