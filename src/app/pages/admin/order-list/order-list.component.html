@@ -57,6 +57,7 @@
                 <th>Order Id</th>
                 <th>Order Date</th>
                 <th>Status</th>
+                <th>Delivery Status</th>
                 <th>Customer</th>
                 <th>Total Price</th>
                 <th>Created At</th>
@@ -77,6 +78,7 @@
                 <td>{{item.uniqueOrderId}}</td>
                 <td>{{item.orderDate | date: 'dd MMM, YYYY'}}</td>
                 <td>{{item.status}}</td>
+                <td>{{item?.deliveryInfo?.status}}</td>
                 <td>{{item.customerId}}</td>
                 <td>{{item.totalPrice}}</td>
                 <td>{{item.createdAt | date: 'dd MMM, YYYY'}}</td>
@@ -106,7 +108,7 @@
                       <li><a (click)="openUpdateStatusOrder(modalUpdateStatusOrder, item)" class="dropdown-item"><i
                         class="fas fa-pencil-alt text-success me-1"></i>
                         Update Status</a></li>
-                      <li><a (click)="openModalAddDelivery(modalAddDelivery,item)" class="dropdown-item"><i
+                      <li *ngIf="item.status != 'waiting payment'"><a (click)="openModalAddDelivery(modalAddDelivery,item)" class="dropdown-item"><i
                         class="fa fa-plus text-primary me-1"></i>
                       Add Delivery</a></li>
                       <li *ngIf="item.status != 'waiting payment'"><a (click)="openInvoiceInfo(item?.uniqueOrderId)" class="dropdown-item"><i
@@ -276,7 +278,7 @@
               <span *ngIf="formUpdate.reason.errors.required">orderId is required.</span>
             </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-3" *ngIf="showOptionDelivery">
             <label class="control-label">Status Delivery: </label>
             <select  *ngIf="listDelivery.length > 0" name ="status_delivery" class="form-select" style="width: 80%;"
                      autocomplete="off" formControlName="status_delivery"

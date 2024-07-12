@@ -24,6 +24,7 @@ export class OrderListComponent implements OnInit {
   submitted = false;
   submittedDelivery = false;
   submittedUpdateStatusOrder = false;
+  showOptionDelivery = false;
 
   orders : any[];
   term: any;
@@ -34,6 +35,23 @@ export class OrderListComponent implements OnInit {
   listDelivery : any[];
   listStatusOrder: any[];
   listStatusDelivery: any[];
+  listStatusDeliveryStep: any[];
+  listStatusDeliveryStep1 = [
+    {
+      key:" being delivered",
+      value:"being delivered"
+    },
+    {
+      key:"successful delivery",
+      value:"successful delivery"
+    },
+  ];
+  listStatusDeliveryStep2 = [
+    {
+      key:"successful delivery",
+      value:"successful delivery"
+    },
+  ];
   maxNumber = 1000000;
 
   constructor(private modalService: NgbModal,
@@ -70,6 +88,7 @@ export class OrderListComponent implements OnInit {
     this.page = 1;
     this.listStatusOrder = listStatusOrder;
     this.listStatusDelivery = listStatusDelivery;
+    this.listStatusDeliveryStep = listStatusDelivery;
     this.getAllOrder();
     this.getAllDelivery();
   }
@@ -160,6 +179,18 @@ export class OrderListComponent implements OnInit {
   }
 
   openUpdateStatusOrder(content: any, item: any){
+    this.showOptionDelivery = item.status !="waiting payment";
+    if(item?.deliveryInfo?.status == 'waiting for delivery') {
+      this.listStatusDelivery = this.listStatusDeliveryStep;
+
+    } else if(item?.deliveryInfo?.status == 'being delivered') {
+      this.listStatusDelivery = this.listStatusDeliveryStep1;
+
+    } else if(item?.deliveryInfo?.status == 'successful delivery') {
+      this.listStatusDelivery = this.listStatusDeliveryStep2;
+    } else {
+      this.listStatusDelivery = this.listStatusDeliveryStep;
+    }
     this.fetchDataFormUpdateStatusOrder(item);
     this.modalService.open(content);
 
@@ -168,7 +199,7 @@ export class OrderListComponent implements OnInit {
     this.formUpdate['orderId'].setValue(item.uniqueOrderId);
     this.formUpdate['customerId'].setValue(item.customerId);
     this.formUpdate['status_order'].setValue(item?.status);
-    this.formUpdate['status_delivery'].setValue(item?.status_delivery);
+    this.formUpdate['status_delivery'].setValue(item?.deliveryInfo?.status);
   }
 
   updateStatusOrder() {
