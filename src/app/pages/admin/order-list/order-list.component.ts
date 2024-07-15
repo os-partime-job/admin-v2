@@ -52,6 +52,24 @@ export class OrderListComponent implements OnInit {
       value:"successful delivery"
     },
   ];
+  listSelectStatus = [
+    {
+      key:"All",
+      value:""
+    },
+    {
+      key:"success",
+      value:"success"
+    },
+    {
+      key:"delivery",
+      value:"delivery"
+    },
+    {
+      key:"cancel",
+      value:"cancel"
+    },
+  ];
   maxNumber = 1000000;
 
   constructor(private modalService: NgbModal,

@@ -7,7 +7,12 @@
       <div class="row">
         <div class="col-sm">
           <label class="control-label text-primary">Status: </label>
-          <input class="form-control" type="text" name="status" autocomplete="off" formControlName="status">
+<!--          <input class="form-control" type="text" name="status" autocomplete="off" formControlName="status">-->
+          <select  *ngIf="listSelectStatus.length > 0" name ="status" class="form-select" style="width: 80%;"
+                   autocomplete="off" formControlName="status">
+<!--            [ngClass]="{'is-invalid': submittedDelivery && formDelivery.deliveryId.errors}"-->
+            <option *ngFor="let status of listSelectStatus" [value]="status.value">{{ status?.key }}</option>
+          </select>
         </div>
         <div class="col-sm">
           <label class="control-label text-primary">Phone Number: </label>
