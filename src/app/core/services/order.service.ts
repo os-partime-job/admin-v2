@@ -82,7 +82,10 @@ export class OrderService {
     return this.http.put<any>(`${environment.backEndConfig.apiUrl}/shop/coupon/use`, request, this.httpOptions)
   }
 
-  getInfoDashBoard(): Observable<any> {
+  getInfoDashBoard(request: any): Observable<any> {
+    return this.http.get(`${environment.backEndConfig.apiUrl}/order/dashboard?fromDate=${request.startDate}&toDate=${request.endDate}`, this.httpOptions);
+  }
+  getInfoDashBoardV2(): Observable<any> {
     return this.http.get(`${environment.backEndConfig.apiUrl}/order/dashboard`, this.httpOptions);
   }
 

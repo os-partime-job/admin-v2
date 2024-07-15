@@ -99,7 +99,7 @@ export class SaleInfoComponent implements OnInit {
     this.eventService.broadcast('changeLayout', layout);
   }
   getDashBoardInfo() {
-    this.orderService.getInfoDashBoard().subscribe((res) => {
+    this.orderService.getInfoDashBoardV2().subscribe((res) => {
       this.dashBoardInfo = res.data;
       // @ts-ignore
       this.dashBoardInfo?.revenue_data?.total_price = this.convertNumber(this.dashBoardInfo?.revenue_data?.total_price)+ ' VNĐ';
