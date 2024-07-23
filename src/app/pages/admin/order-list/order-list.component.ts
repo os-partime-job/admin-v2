@@ -192,7 +192,9 @@ export class OrderListComponent implements OnInit {
       limit:this.maxNumber,
     }
     this.deliverService.getAllDelivery().subscribe((res) =>{
-      this.listDelivery = res;
+      this.listDelivery = res.filter(item =>{
+        return item.status === 'active';
+      });
       // this.count = res?.meta?.total;
     }, error => {
       this.toastService.show('Error get list order', { classname: 'bg-danger text-light', delay: 5000 });
