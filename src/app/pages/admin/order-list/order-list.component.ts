@@ -33,6 +33,7 @@ export class OrderListComponent implements OnInit {
   pageSize = 9;
   searchOrder:string = '';
   listDelivery : any[];
+  listDeliveryActive : any[];
   listStatusOrder: any[];
   listStatusDelivery: any[];
   listStatusDeliveryStep: any[];
@@ -192,7 +193,8 @@ export class OrderListComponent implements OnInit {
       limit:this.maxNumber,
     }
     this.deliverService.getAllDelivery().subscribe((res) =>{
-      this.listDelivery = res.filter(item =>{
+      this.listDelivery = res;
+      this.listDeliveryActive = res.filter(item =>{
         return item.status === 'active';
       });
       // this.count = res?.meta?.total;

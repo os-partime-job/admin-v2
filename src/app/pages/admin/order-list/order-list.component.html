@@ -227,10 +227,10 @@
           </div>
           <div class="mb-3">
             <label class="control-label">Delivery: </label>
-              <select  *ngIf="listDelivery.length > 0" name ="deliveryId" class="form-select" style="width: 80%;"
+              <select  *ngIf="listDeliveryActive.length > 0" name ="deliveryId" class="form-select" style="width: 80%;"
                        autocomplete="off" formControlName="deliveryId"
                        [ngClass]="{'is-invalid': submittedDelivery && formDelivery.deliveryId.errors}">
-                <option *ngFor="let delivery of listDelivery" [value]="delivery.userId">{{ delivery?.userName }}</option>
+                <option *ngFor="let delivery of listDeliveryActive" [value]="delivery.userId">{{ delivery?.userName }}</option>
               </select>
 
             <div *ngIf="submittedDelivery && formDelivery.deliveryId.errors" class="invalid-feedback">
