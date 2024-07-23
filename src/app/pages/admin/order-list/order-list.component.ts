@@ -270,7 +270,7 @@ export class OrderListComponent implements OnInit {
     window.open(url,"_blank");
   }
   getDelivery(_id:any) {
-    return this.listDelivery.find(({id}) =>id === _id);
+    return this.listDelivery.find(({userId}) =>userId === _id);
   }
   getDeliveryName(_id:any) {
     return this.listDelivery.find(({userId}) =>userId === _id)?.userName;
