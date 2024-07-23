@@ -273,6 +273,6 @@ export class OrderListComponent implements OnInit {
     return this.listDelivery.find(({id}) =>id === _id);
   }
   getDeliveryName(_id:any) {
-    return this.listDelivery.find(({id}) =>id === _id)?.userName;
+    return this.listDelivery.find(({userId}) =>userId === _id)?.userName;
   }
 }
