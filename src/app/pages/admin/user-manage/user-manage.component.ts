@@ -156,6 +156,11 @@ export class UserManageComponent implements OnInit {
         id:4,
         roleName:'SALE'
       }
+      ,
+      {
+        id:5,
+        roleName:'DELIVERY'
+      }
     ]
   }
   getListStatus() {
