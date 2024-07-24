@@ -62,7 +62,7 @@ export const MENU: MenuItem[] = [
                 label: 'Order List Manage',
                 link: '/admin/order-list',
                 parentId: 130,
-                role:'ROLE_ADMIN'
+                role:'ROLE_ADMIN, ROLE_DELIVERY'
               },
               {
                 id: 133,

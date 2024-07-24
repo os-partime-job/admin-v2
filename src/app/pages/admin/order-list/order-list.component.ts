@@ -9,6 +9,7 @@ import {DeliverService} from "../../../core/services/deliver.service";
 import {listStatusOrder} from "./list-status-order";
 import { environment } from 'src/environments/environment';
 import {listStatusDelivery} from "./ListStatusDelivery";
+import {AuthfakeauthenticationService} from "../../../core/services/authfake.service";
 
 @Component({
   selector: 'app-order-list',
@@ -32,6 +33,7 @@ export class OrderListComponent implements OnInit {
   count = 0;
   pageSize = 9;
   searchOrder:string = '';
+  roleUser : string = '';
   listDelivery : any[];
   listDeliveryActive : any[];
   listStatusOrder: any[];
@@ -80,10 +82,12 @@ export class OrderListComponent implements OnInit {
               private numberFormat: NumberService,
               private orderService: OrderService,
               private toastService :ToastService,
-              private deliverService : DeliverService
+              private deliverService : DeliverService,
+              private authFackservice: AuthfakeauthenticationService
               ) { }
 
   ngOnInit() {
+    this.roleUser = this.authFackservice.currentUserValue?.role;
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Admin'},{ label: 'Order List Manage', active: true}];
 
     this.formAddDelivery = this.formBuilder.group({
@@ -126,6 +130,9 @@ export class OrderListComponent implements OnInit {
     }
     if(this.formSearchOrder['orderId'].value) {
       request.order_id = this.formSearchOrder['orderId'].value;
+    }
+    if(this.roleUser ==='ROLE_DELIVERY') {
+      request.is_delivery = true;
     }
     this.orderService.getOrdersAllUser(request).subscribe((res) =>{
       this.orders = res.data;
