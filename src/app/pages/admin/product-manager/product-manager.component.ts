@@ -24,6 +24,7 @@ export class ProductManagerComponent implements OnInit {
   public deleteProduct!: any;
   selectedFile: ImageSnippet;
   public jewelryTypes : any[] = [];
+  listDiamond : any[];
 
   page = 1;
   count = 100;
@@ -41,6 +42,7 @@ export class ProductManagerComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     this.getJewelryTypes();
+    this.getDiamondList();
 
     this.breadCrumbItems = [{ label: 'Dashboards' }, { label: 'Admin'},{ label: 'Product Manage', active: true}];
   }
@@ -70,13 +72,13 @@ export class ProductManagerComponent implements OnInit {
         (response: any) => {
           this.toastService.show('Add product success', { classname: 'bg-success text-light', delay: 5000 });
           this.getProducts();
-          addForm.reset();
+          // addForm.reset();
           this.modalService.dismissAll();
           this.selectedFile = new ImageSnippet(null,null);
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
-          addForm.reset();
+          // addForm.reset();
           this.selectedFile = new ImageSnippet(null,null);
         }
       );
@@ -137,6 +139,7 @@ export class ProductManagerComponent implements OnInit {
     this.searchProduct = key;
     this.page = 1;
     this.getProducts();
+    this.getDiamondList();
 
   }
 
@@ -181,6 +184,13 @@ export class ProductManagerComponent implements OnInit {
       this.toastService.show('Error get Type', { classname: 'bg-danger text-light', delay: 5000 })
     })
 
+  }
+  getDiamondList() {
+    this.ProductService.getDiamondList().subscribe((res) =>{
+      this.listDiamond = res;
+    }, error => {
+      this.toastService.show("Get diamond list fail!!!", { classname: 'bg-danger text-light', delay: 5000 });
+    })
   }
 
 }
